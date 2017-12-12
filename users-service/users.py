@@ -8,8 +8,9 @@ import click
 
 from flask_migrate import Migrate
 
-from project import create_app, db
-from project.api.models import User
+from project import app
+# from project import create_app, db
+# from project.api.models import User
 
 
 COV = coverage.coverage(
@@ -22,16 +23,16 @@ COV = coverage.coverage(
 COV.start()
 
 
-app = create_app()
-migrate = Migrate(app, db)
+# app = create_app()
+# migrate = Migrate(app, db)
 
 
 @app.shell_context_processor
 def make_shell_context():
     return {
         'app': app,
-        'db': db,
-        'User': User
+        # 'db': db,
+        # 'User': User
     }
 
 
@@ -54,19 +55,19 @@ def test(cov):
     return 1
 
 
-@app.cli.command()
-def recreate_db():
-    """ Recreates the database. """
-
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
-
-
-@app.cli.command()
-def seed_db():
-    """ Seeds the database with sample data. """
-
-    db.session.add(User(username='test', email='test@email.com', password='password'))
-    db.session.add(User(username='test2', email='test2@email.com', password='password'))
-    db.session.commit()
+# @app.cli.command()
+# def recreate_db():
+#     """ Recreates the database. """
+#
+#     db.drop_all()
+#     db.create_all()
+#     db.session.commit()
+#
+#
+# @app.cli.command()
+# def seed_db():
+#     """ Seeds the database with sample data. """
+#
+#     db.session.add(User(username='test', email='test@email.com', password='password'))
+#     db.session.add(User(username='test2', email='test2@email.com', password='password'))
+#     db.session.commit()
