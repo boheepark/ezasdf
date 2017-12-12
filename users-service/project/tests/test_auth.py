@@ -27,7 +27,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'success')
-            self.assertEqual(data['message'], '{email} signed up.'.format(email=self.EMAIL))
+            self.assertEqual(
+                data['message'],
+                '{email} signed up.'.format(email=self.EMAIL)
+            )
             self.assertTrue(data['data']['token'])
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.status_code, 201)
@@ -43,7 +46,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid payload.')
+            self.assertEqual(
+                data['message'],
+                'Invalid payload.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -61,7 +67,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid payload.')
+            self.assertEqual(
+                data['message'],
+                'Invalid payload.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -79,7 +88,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid payload.')
+            self.assertEqual(
+                data['message'],
+                'Invalid payload.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -97,7 +109,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid payload.')
+            self.assertEqual(
+                data['message'],
+                'Invalid payload.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -125,7 +140,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'User already exists.')
+            self.assertEqual(
+                data['message'],
+                'User already exists.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -153,7 +171,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'User already exists.')
+            self.assertEqual(
+                data['message'],
+                'User already exists.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -180,7 +201,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'success')
-            self.assertEqual(data['message'], '{email} signed in.'.format(email=self.EMAIL))
+            self.assertEqual(
+                data['message'],
+                '{email} signed in.'.format(email=self.EMAIL)
+            )
             self.assertTrue(data['data']['token'])
             self.assertEqual(response.content_type, 'application/json')
             self.assert200(response)
@@ -196,7 +220,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid payload.')
+            self.assertEqual(
+                data['message'],
+                'Invalid payload.'
+            )
             self.assert400(response)
 
     def test_post_signin_not_registered_user(self):
@@ -213,7 +240,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'User does not exist.')
+            self.assertEqual(
+                data['message'],
+                'User does not exist.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert404(response)
 
@@ -230,11 +260,14 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'success')
-            self.assertEqual(data['message'], '{email} signed out.'.format(email=user.email))
+            self.assertEqual(
+                data['message'],
+                '{email} signed out.'.format(email=user.email)
+            )
             self.assert200(response)
 
     def test_get_signout_no_token(self):
-        """ Verify signing out a user without a token throws an error. """
+        """ Verify signing out without a token throws an error. """
 
         with self.client:
             response = self.client.get(
@@ -242,10 +275,14 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'No token provided.')
+            self.assertEqual(
+                data['message'],
+                'No token provided.'
+            )
+            self.assert403(response)
 
     def test_get_signout_invalid_token(self):
-        """ Verify signing out a user with an invalid token throws an error. """
+        """ Verify signing out with an invalid token throws an error. """
 
         with self.client:
             response = self.client.get(
@@ -256,12 +293,15 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid token. Signin again.')
+            self.assertEqual(
+                data['message'],
+                'Invalid token. Signin again.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert401(response)
 
     def test_get_signout_expired_token(self):
-        """ Verify signing out a user with an expired token throws an error. """
+        """ Verify signing out with an expired token throws an error. """
 
         user = add_user(self.USERNAME, self.EMAIL, self.PASSWORD)
         with self.client:
@@ -275,7 +315,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Signature expired. Signin again.')
+            self.assertEqual(
+                data['message'],
+                'Signature expired. Signin again.'
+            )
             self.assert401(response)
 
     def test_get_signout_inactive_user(self):
@@ -293,7 +336,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Something went wrong. Please contact us.')
+            self.assertEqual(
+                data['message'],
+                'Something went wrong. Please contact us.'
+            )
             self.assert401(response)
 
     def test_get_profile(self):
@@ -309,7 +355,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'success')
-            self.assertEqual(data['message'], "Fetched {email}'s profile data.".format(email=user.email))
+            self.assertEqual(
+                data['message'],
+                "Fetched {email}'s profile data.".format(email=user.email)
+            )
             self.assertEqual(data['data']['username'], user.username)
             self.assertEqual(data['data']['email'], user.email)
             self.assertTrue(data['data']['active'])
@@ -325,7 +374,11 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'No token provided.')
+            self.assertEqual(
+                data['message'],
+                'No token provided.'
+            )
+            self.assert403(response)
 
     def test_get_profile_invalid_token(self):
         """ Verify user cannot get profile with an invalid token. """
@@ -339,7 +392,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid token. Signin again.')
+            self.assertEqual(
+                data['message'],
+                'Invalid token. Signin again.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert401(response)
 
@@ -358,7 +414,10 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Signature expired. Signin again.')
+            self.assertEqual(
+                data['message'],
+                'Signature expired. Signin again.'
+            )
             self.assert401(response)
 
     def test_get_profile_inactive_user(self):
@@ -376,5 +435,8 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Something went wrong. Please contact us.')
+            self.assertEqual(
+                data['message'],
+                'Something went wrong. Please contact us.'
+            )
             self.assert401(response)

@@ -21,11 +21,14 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'success')
-            self.assertEqual(data['message'], 'pong!')
+            self.assertEqual(
+                data['message'],
+                'pong!'
+            )
             self.assert200(response)
 
     def test_get_users(self):
-        """ Verify GET request to /users returns a list of users ordered by created_at. """
+        """ Verify GET /users returns users ordered by created_at. """
 
         created = datetime.datetime.utcnow() + datetime.timedelta(-30)
         user = add_user(self.USERNAME, self.EMAIL, self.PASSWORD, created)
@@ -38,12 +41,30 @@ class TestUsersBlueprint(BaseTestCase):
             self.assertEqual(data['status'], 'success')
             self.assertEqual(data['message'], 'Users fetched.')
             self.assertEqual(len(data['data']['users']), 3)
-            self.assertEqual(data['data']['users'][0]['username'], self.admin.username)
-            self.assertEqual(data['data']['users'][0]['email'], self.admin.email)
-            self.assertEqual(data['data']['users'][1]['username'], user2.username)
-            self.assertEqual(data['data']['users'][1]['email'], user2.email)
-            self.assertEqual(data['data']['users'][2]['username'], user.username)
-            self.assertEqual(data['data']['users'][2]['email'], user.email)
+            self.assertEqual(
+                data['data']['users'][0]['username'],
+                self.admin.username
+            )
+            self.assertEqual(
+                data['data']['users'][0]['email'],
+                self.admin.email
+            )
+            self.assertEqual(
+                data['data']['users'][1]['username'],
+                user2.username
+            )
+            self.assertEqual(
+                data['data']['users'][1]['email'],
+                user2.email
+            )
+            self.assertEqual(
+                data['data']['users'][2]['username'],
+                user.username
+            )
+            self.assertEqual(
+                data['data']['users'][2]['email'],
+                user.email
+            )
             self.assertIn('created_at', data['data']['users'][1])
             self.assertIn('created_at', data['data']['users'][2])
             self.assertEqual(response.content_type, 'application/json')
@@ -68,7 +89,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'You do not have permission to do that.')
+            self.assertEqual(
+                data['message'],
+                'You do not have permission to do that.'
+            )
             self.assert401(response)
 
     def test_post_users(self):
@@ -89,7 +113,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'success')
-            self.assertEqual(data['message'], '{email} was added!'.format(email=self.EMAIL))
+            self.assertEqual(
+                data['message'],
+                '{email} was added!'.format(email=self.EMAIL)
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.status_code, 201)
 
@@ -107,7 +134,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid payload.')
+            self.assertEqual(
+                data['message'],
+                'Invalid payload.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -128,7 +158,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid payload.')
+            self.assertEqual(
+                data['message'],
+                'Invalid payload.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -149,7 +182,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid payload.')
+            self.assertEqual(
+                data['message'],
+                'Invalid payload.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -170,7 +206,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Invalid payload.')
+            self.assertEqual(
+                data['message'],
+                'Invalid payload.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -193,7 +232,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'User already exists.')
+            self.assertEqual(
+                data['message'],
+                'User already exists.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -216,7 +258,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'User already exists.')
+            self.assertEqual(
+                data['message'],
+                'User already exists.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -239,7 +284,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'User already exists.')
+            self.assertEqual(
+                data['message'],
+                'User already exists.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
@@ -264,7 +312,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'Something went wrong. Please contact us.')
+            self.assertEqual(
+                data['message'],
+                'Something went wrong. Please contact us.'
+            )
             self.assert401(response)
 
     def test_get_users_by_id(self):
@@ -279,7 +330,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'success')
-            self.assertEqual(data['message'], 'User {user_id} fetched.'.format(user_id=user.id))
+            self.assertEqual(
+                data['message'],
+                'User {user_id} fetched.'.format(user_id=user.id)
+            )
             self.assertEqual(data['data']['username'], self.USERNAME)
             self.assertEqual(data['data']['email'], self.EMAIL)
             self.assertIn('created_at', data['data'])
@@ -295,7 +349,10 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'User does not exist.')
+            self.assertEqual(
+                data['message'],
+                'User does not exist.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert404(response)
 
@@ -308,6 +365,9 @@ class TestUsersBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
             self.assertEqual(data['status'], 'error')
-            self.assertEqual(data['message'], 'User does not exist.')
+            self.assertEqual(
+                data['message'],
+                'User does not exist.'
+            )
             self.assertEqual(response.content_type, 'application/json')
             self.assert404(response)

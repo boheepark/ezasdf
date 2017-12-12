@@ -21,7 +21,13 @@ class User(db.Model):
     admin = db.Column(db.Boolean, default=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, username, email, password, created_at=datetime.datetime.utcnow()):
+    def __init__(
+            self,
+            username,
+            email,
+            password,
+            created_at=datetime.datetime.utcnow()
+    ):
         """ __init__
 
         :param username:
@@ -32,7 +38,10 @@ class User(db.Model):
 
         self.username = username
         self.email = email
-        self.password = bcrypt.generate_password_hash(password, current_app.config.get('BCRYPT_LOG_ROUNDS')).decode()
+        self.password = bcrypt.generate_password_hash(
+            password,
+            current_app.config.get('BCRYPT_LOG_ROUNDS')
+        ).decode()
         self.created_at = created_at
 
     def to_json(self):
@@ -55,8 +64,12 @@ class User(db.Model):
             return jwt.encode(
                 {
                     'exp': datetime.datetime.utcnow() + datetime.timedelta(
-                        days=current_app.config.get('TOKEN_EXPIRATION_DAYS'),
-                        seconds=current_app.config.get('TOKEN_EXPIRATION_SECONDS')
+                        days=current_app.config.get(
+                            'TOKEN_EXPIRATION_DAYS'
+                        ),
+                        seconds=current_app.config.get(
+                            'TOKEN_EXPIRATION_SECONDS'
+                        )
                     ),
                     'iat': datetime.datetime.utcnow(),
                     'sub': user_id

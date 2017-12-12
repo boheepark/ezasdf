@@ -40,7 +40,10 @@ def get_users():
     return success_response(
         'Users fetched.',
         data={
-            'users': [user.to_json() for user in User.query.order_by(User.created_at.desc()).all()]
+            'users': [
+                user.to_json()
+                for user in User.query.order_by(User.created_at.desc()).all()
+            ]
         }
     ), 200
 
@@ -75,7 +78,12 @@ def post_users(user_id):
     password = data.get('password')
     # TODO setup validation?
     try:
-        if not User.query.filter(or_(User.username == username, User.email == email)).first():
+        if not User.query.filter(
+                or_(
+                    User.username == username,
+                    User.email == email
+                )
+        ).first():
             add_user(username, email, password)
             return success_response(
                 '{email} was added!'.format(email=email)

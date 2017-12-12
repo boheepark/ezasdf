@@ -37,7 +37,12 @@ def post_signup():
     email = data.get('email')
     password = data.get('password')
     try:
-        if not User.query.filter(or_(User.username == username, User.email == email)).first():
+        if not User.query.filter(
+                or_(
+                    User.username == username,
+                    User.email == email
+                )
+        ).first():
             new_user = add_user(username, email, password)
             token = new_user.encode_jwt(new_user.id)
             return success_response(
