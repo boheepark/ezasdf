@@ -1,4 +1,4 @@
-# asdf-users/project/config.py
+# users-service/project/config.py
 
 
 import os
