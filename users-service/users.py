@@ -8,9 +8,8 @@ import click
 
 # from flask_migrate import Migrate
 
-from project import app, db, User
-# from project import create_app, db
-# from project.api.models import User
+from project import create_app, db
+from project.api.models import User
 
 
 COV = coverage.coverage(
@@ -23,7 +22,7 @@ COV = coverage.coverage(
 COV.start()
 
 
-# app = create_app()
+app = create_app()
 # migrate = Migrate(app, db)
 
 

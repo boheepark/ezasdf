@@ -1,4 +1,4 @@
-# ezasdf-users/project/tests/test_config.py
+# users-service/project/tests/test_config.py
 
 
 import os
@@ -7,7 +7,7 @@ import unittest
 from flask import current_app
 from flask_testing import TestCase
 
-from project import app
+from project import create_app
 
 
 class TestDevelopmentConfig(TestCase):
@@ -19,7 +19,7 @@ class TestDevelopmentConfig(TestCase):
         :return: flask app
         """
 
-        # app = create_app()
+        app = create_app()
         app.config.from_object('project.config.DevelopmentConfig')
         return app
 
@@ -44,7 +44,7 @@ class TestTestingConfig(TestCase):
         :return: flask app
         """
 
-        # app = create_app()
+        app = create_app()
         app.config.from_object('project.config.TestingConfig')
         return app
 
@@ -70,7 +70,7 @@ class TestProductionConfig(TestCase):
         :return: flask app
         """
 
-        # app = create_app()
+        app = create_app()
         app.config.from_object('project.config.ProductionConfig')
         return app
 
