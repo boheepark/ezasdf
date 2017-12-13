@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -v
 
 
 echo "Waiting for postgres..."
