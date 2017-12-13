@@ -16,4 +16,4 @@ ADD ./entrypoint.sh /usr/src/app/entrypoint.sh
 
 ADD . /usr/src/app
 
-CMD ["sudo ./entrypoint.sh"]
+CMD ["./entrypoint.sh"]
