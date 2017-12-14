@@ -50,7 +50,7 @@ class TestUserModel(BaseTestCase):
 
     def test_to_json(self):
         """ Verify to_json returns a dict. """
-        
+
         user = add_user(self.USERNAME, self.EMAIL, self.PASSWORD)
         self.assertTrue(isinstance(user.to_json(), dict))
 
