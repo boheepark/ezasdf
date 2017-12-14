@@ -151,6 +151,7 @@ class Form extends Component {
                     this.props.createMessage('Signin failed.', 'danger');
                 }
                 if(formType === 'signup') {
+                    // change message to Signup failed.
                     this.props.createMessage('That user already exists.', 'danger');
                 }
             });
