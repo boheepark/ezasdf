@@ -70,7 +70,7 @@ class TestTestingConfig(TestCase):
         )
         self.assertEqual(current_app.config['BCRYPT_LOG_ROUNDS'], 4)
         self.assertEqual(current_app.config['TOKEN_EXPIRATION_DAYS'], 0)
-        self.assertEqual(current_app.config['TOKEN_EXPIRATION_SECONDS'], 3)
+        self.assertEqual(current_app.config['TOKEN_EXPIRATION_SECONDS'], 2)
 
 
 class TestProductionConfig(TestCase):
@@ -98,7 +98,3 @@ class TestProductionConfig(TestCase):
         self.assertEqual(current_app.config['BCRYPT_LOG_ROUNDS'], 13)
         self.assertEqual(current_app.config['TOKEN_EXPIRATION_DAYS'], 30)
         self.assertEqual(current_app.config['TOKEN_EXPIRATION_SECONDS'], 0)
-
-
-if __name__ == '__main__':
-    unittest.main()

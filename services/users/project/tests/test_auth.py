@@ -2,7 +2,8 @@
 
 
 import json
-import time
+
+from flask import current_app
 
 from project import db
 from project.api.utils import add_user
@@ -303,14 +304,13 @@ class TestAuthBlueprint(BaseTestCase):
     def test_get_signout_expired_token(self):
         """ Verify signing out with an expired token throws an error. """
 
+        current_app.config['TOKEN_EXPIRATION_SECONDS'] = -1
         user = add_user(self.USERNAME, self.EMAIL, self.PASSWORD)
         with self.client:
-            token = self.get_jwt(user)
-            time.sleep(4)
             response = self.client.get(
                 '/auth/signout',
                 headers={
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': 'Bearer ' + self.get_jwt(user)
                 }
             )
             data = json.loads(response.data.decode())
@@ -402,14 +402,13 @@ class TestAuthBlueprint(BaseTestCase):
     def test_get_profile_expired_token(self):
         """ Verify user cannot get profile with an expired token. """
 
+        current_app.config['TOKEN_EXPIRATION_SECONDS'] = -1
         user = add_user(self.USERNAME, self.EMAIL, self.PASSWORD)
         with self.client:
-            token = self.get_jwt(user)
-            time.sleep(4)
             response = self.client.get(
                 '/auth/signout',
                 headers={
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': 'Bearer ' + self.get_jwt(user)
                 }
             )
             data = json.loads(response.data.decode())

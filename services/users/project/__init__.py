@@ -22,7 +22,7 @@ def create_app():
 
     app = Flask(__name__)
     app.config.from_object(os.getenv("APP_SETTINGS"))
-    
+
     CORS(app)
     db.init_app(app)
     migrate.init_app(app, db)
