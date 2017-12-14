@@ -1,4 +1,4 @@
-# users-service/project/tests/test_config.py
+# users/project/tests/test_config.py
 
 
 import os

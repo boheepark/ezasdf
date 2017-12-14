@@ -1,4 +1,4 @@
-# users-service/project/tests/test_auth.py
+# users/project/tests/test_auth.py
 
 
 import json

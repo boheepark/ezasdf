@@ -1,4 +1,4 @@
-# users-service/project/api/auth.py
+# users/project/api/auth.py
 
 
 from flask import Blueprint, request

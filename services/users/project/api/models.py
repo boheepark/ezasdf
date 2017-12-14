@@ -1,4 +1,4 @@
-# users-service/project/api/models.py
+# users/project/api/models.py
 
 
 import datetime

@@ -1,4 +1,4 @@
-# users-service/project/api/users.py
+# users/project/api/users.py
 
 
 from flask import Blueprint, request

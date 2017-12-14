@@ -1,4 +1,4 @@
-# users-service/project/tests/test_user_model.py
+# users/project/tests/test_user_model.py
 
 
 from sqlalchemy.exc import IntegrityError
@@ -47,6 +47,12 @@ class TestUserModel(BaseTestCase):
         )
         db.session.add(duplicate_user)
         self.assertRaises(IntegrityError, db.session.commit)
+
+    def test_to_json(self):
+        """ Verify to_json returns a dict. """
+        
+        user = add_user(self.USERNAME, self.EMAIL, self.PASSWORD)
+        self.assertTrue(isinstance(user.to_json(), dict))
 
     def test_passwords_are_random(self):
         """ Verify passwords are random. """

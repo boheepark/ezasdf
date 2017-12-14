@@ -1,4 +1,4 @@
-# users-service/project/config.py
+# users/project/config.py
 
 
 import os

@@ -1,4 +1,4 @@
-# users-service/project/tests/test_users.py
+# users/project/tests/test_users.py
 
 
 import datetime
