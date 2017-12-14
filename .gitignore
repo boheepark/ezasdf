@@ -105,4 +105,4 @@ ENV/
 
 # setup
 dev.cmd
-prod.sh
+prod.cmd
