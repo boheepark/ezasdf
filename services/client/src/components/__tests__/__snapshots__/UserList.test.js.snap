@@ -22,6 +22,12 @@ exports[`UserList renders a snapshot properly 1`] = `
           Username
         </th>
         <th>
+          Active
+        </th>
+        <th>
+          Admin
+        </th>
+        <th>
           Created Date
         </th>
       </tr>
@@ -32,24 +38,40 @@ exports[`UserList renders a snapshot properly 1`] = `
           1
         </td>
         <td>
+          test@email.com
+        </td>
+        <td>
           test
         </td>
         <td>
-          test@email.com
+          true
         </td>
-        <td />
+        <td>
+          false
+        </td>
+        <td>
+          Wed Dec 21 2016 18:36:07 GMT-0500 (Eastern Standard Time)
+        </td>
       </tr>
       <tr>
         <td>
           2
         </td>
         <td>
+          test2@email.com
+        </td>
+        <td>
           test2
         </td>
         <td>
-          test2@email.com
+          true
         </td>
-        <td />
+        <td>
+          false
+        </td>
+        <td>
+          Wed Dec 21 2016 18:36:07 GMT-0500 (Eastern Standard Time)
+        </td>
       </tr>
     </tbody>
   </table>
