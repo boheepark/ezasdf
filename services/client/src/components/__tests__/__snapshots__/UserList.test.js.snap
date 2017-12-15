@@ -16,10 +16,10 @@ exports[`UserList renders a snapshot properly 1`] = `
           User ID
         </th>
         <th>
-          Email
+          Username
         </th>
         <th>
-          Username
+          Email
         </th>
         <th>
           Active
@@ -38,10 +38,10 @@ exports[`UserList renders a snapshot properly 1`] = `
           1
         </td>
         <td>
-          test@email.com
+          test
         </td>
         <td>
-          test
+          test@email.com
         </td>
         <td>
           true
@@ -58,10 +58,10 @@ exports[`UserList renders a snapshot properly 1`] = `
           2
         </td>
         <td>
-          test2@email.com
+          test2
         </td>
         <td>
-          test2
+          test2@email.com
         </td>
         <td>
           true

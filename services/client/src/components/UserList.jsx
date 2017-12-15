@@ -11,8 +11,8 @@ const UserList = (props) => {
                 <thead>
                 <tr>
                     <th>User ID</th>
-                    <th>Email</th>
                     <th>Username</th>
+                    <th>Email</th>
                     <th>Active</th>
                     <th>Admin</th>
                     <th>Created Date</th>
@@ -24,8 +24,8 @@ const UserList = (props) => {
                         return (
                             <tr key={user.id}>
                                 <td>{user.id}</td>
-                                <td>{user.email}</td>
                                 <td>{user.username}</td>
+                                <td>{user.email}</td>
                                 <td>{String(user.active)}</td>
                                 <td>{String(user.admin)}</td>
                                 <td>{user.created_at}</td>
