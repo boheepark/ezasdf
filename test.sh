@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-env=$1
 file=""
 fails=""
 
@@ -15,8 +14,8 @@ elif [[ "${env}" == "prod" ]];
 then
   file="docker-compose-prod.yml"
 else
-  echo "USAGE: sh test.sh environment_name"
-  echo "* environment_name: dev, stage, or prod"
+  echo "Something went wrong."
+  echo "Check env variable."
   exit 1
 fi
 

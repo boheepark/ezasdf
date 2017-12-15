@@ -22,14 +22,12 @@ echo errorlevel: %errorlevel%
 IF NOT %ERRORLEVEL% == 0 (
   SET fails=%fails% user
 )
-REM inspect $? users
 
 docker-compose -f %file% run users-service flake8 project
 echo errorlevel: %errorlevel%
 IF NOT %ERRORLEVEL% == 0 (
   SET fails=%fails% users-lint
 )
-REM inspect $? users-lint
 
 IF "%env%" == "dev" (
   docker-compose -f %file% run client yarn test --coverage
