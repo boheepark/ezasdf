@@ -86,7 +86,9 @@ def authenticate(f):
         token = auth_header[7:]
         user_id = User.decode_jwt(token)
         if isinstance(user_id, str):
-            return error_response(user_id), 401
+            return error_response(
+                user_id
+            ), 401
         user = User.query.filter_by(id=user_id).first()
         if not user or not user.active:
             return error_response(
