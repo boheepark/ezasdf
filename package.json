@@ -5,6 +5,7 @@
   "author": "Bohee Park <boheepark91@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "randomstring": "^1.1.5",
     "testcafe": "^0.18.5"
   }
 }
