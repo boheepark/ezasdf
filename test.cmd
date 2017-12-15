@@ -1,47 +1,50 @@
-#!/bin/bash
+@ECHO OFF
 
+SETLOCAL
 
-env=$1
-file=""
-fails=""
+SET file=""
+SET fails=""
 
-if [[ "${env}" == "stage" ]];
-then
-  file="docker-compose-dev.yml"
-elif [[ "${env}" == "dev" ]];
-then
-  file="docker-compose-dev.yml"
-elif [[ "${env}" == "prod" ]];
-then
-  file="docker-compose-prod.yml"
-else
-  echo "USAGE: sh test.sh environment_name"
-  echo "* environment_name: must either be 'dev', 'stage', or 'prod'"
-  exit 1
-fi
+IF "%env%" == "dev" (
+  SET file=docker-compose-dev.yml
+) ELSE IF "%env%" == "stage" (
+  SET file=docker-compose-dev.yml
+) ELSE IF "%env%" == "prod" (
+  SET file=docker-compose-dev.yml
+) ELSE (
+  ECHO Something went wrong.
+  ECHO Check env variable.
+  EXIT /B 1
+)
 
-inspect() {
-  if [ $1 -ne 0 ];
-  then
-    fails="${fails} $2"
-  fi
-}
+docker-compose -f %file% run users-service flask test
+echo errorlevel: %errorlevel%
+IF NOT %ERRORLEVEL% == 0 (
+  SET fails=%fails% user
+)
+REM inspect $? users
 
-docker-compose -f $file run users-service flask test
-inspect $? users
-docker-compose -f $file run users-service flake8 project
-inspect $? users-lint
-if [[ "${env}" == "dev" ]];
-then
-  docker-compose -f $file run client yarn test --coverage
-  inspect $? client
-fi
+docker-compose -f %file% run users-service flake8 project
+echo errorlevel: %errorlevel%
+IF NOT %ERRORLEVEL% == 0 (
+  SET fails=%fails% users-lint
+)
+REM inspect $? users-lint
 
-if [ -n "${fails}" ];
-then
-  echo "Tests failed: ${fails}"
-  exit 1
-else
-  echo "Tests passed!"
-  exit 0
-fi
+IF "%env%" == "dev" (
+  docker-compose -f %file% run client yarn test --coverage
+  echo errorlevel: %errorlevel%
+  IF NOT %ERRORLEVEL% == 0 (
+    SET fails=%fails% client
+  )
+)
+
+IF NOT %fails% == "" (
+  ECHO Tests failed: %fails%
+  EXIT /B 1
+) ELSE (
+  ECHO Tests passed!
+  EXIT /B 0
+)
+
+ENDLOCAL

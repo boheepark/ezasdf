@@ -5,10 +5,10 @@ env=$1
 file=""
 fails=""
 
-if [[ "${env}" == "stage" ]];
+if [[ "${env}" == "dev" ]];
 then
   file="docker-compose-dev.yml"
-elif [[ "${env}" == "dev" ]];
+elif [[ "${env}" == "stage" ]];
 then
   file="docker-compose-dev.yml"
 elif [[ "${env}" == "prod" ]];
@@ -16,7 +16,7 @@ then
   file="docker-compose-prod.yml"
 else
   echo "USAGE: sh test.sh environment_name"
-  echo "* environment_name: must either be 'dev', 'stage', or 'prod'"
+  echo "* environment_name: dev, stage, or prod"
   exit 1
 fi
 
@@ -29,8 +29,10 @@ inspect() {
 
 docker-compose -f $file run users-service flask test
 inspect $? users
+
 docker-compose -f $file run users-service flake8 project
 inspect $? users-lint
+
 if [[ "${env}" == "dev" ]];
 then
   docker-compose -f $file run client yarn test --coverage
