@@ -7,10 +7,12 @@ class UserProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            created_at: '',
-            email: '',
             id: '',
-            username: ''
+            email: '',
+            username: '',
+            active: '',
+            admin: '',
+            created_at: ''
         };
     }
 
@@ -31,10 +33,12 @@ class UserProfile extends Component {
         })
             .then((res) => {
                 this.setState({
-                    created_at: res.data.data.created_at,
-                    email: res.data.data.email,
                     id: res.data.data.id,
-                    username: res.data.data.username
+                    username: res.data.data.username,
+                    email: res.data.data.email,
+                    active: String(res.data.data.active),
+                    admin: String(res.data.data.admin),
+                    created_at: res.data.data.created_at,
                 })
             })
             .catch((error) => {
@@ -52,6 +56,8 @@ class UserProfile extends Component {
                     <li><strong>User ID:</strong> {this.state.id}</li>
                     <li><strong>Username:</strong> {this.state.username}</li>
                     <li><strong>Email:</strong> {this.state.email}</li>
+                    <li><strong>Active:</strong> {this.state.active}</li>
+                    <li><strong>Admin:</strong> {this.state.admin}</li>
                     <li><strong>Created at:</strong> {this.state.created_at}</li>
                 </ul>
             </div>
