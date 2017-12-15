@@ -104,5 +104,6 @@ ENV/
 .idea/
 
 # setup
+setup.cmd
 dev.cmd
 prod.cmd
