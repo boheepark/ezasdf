@@ -30,14 +30,14 @@ def make_shell_context():
 
 
 @app.cli.command()
-@click.option('--cov/--no-cov', default=False, help='Enable code coverage')
-def test(cov):
+@click.option('--coverage/--no-coverage', default=False, help='Enable code coverage')
+def test(coverage):
     """ Run the unit tests. """
 
     tests = unittest.TestLoader().discover('project/tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
-        if cov:
+        if coverage:
             COV.stop()
             COV.save()
             print('Coverage Summary:')
