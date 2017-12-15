@@ -105,3 +105,4 @@ ENV/
 
 # setup
 setup.cmd
+setup.sh
