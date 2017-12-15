@@ -15,7 +15,7 @@ const Message = (props) => {
                 onClick={()=>{props.removeMessage()}}
             >&times;</button>
         </div>
-    )
+    );
 };
 
 

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
-import FormErrors from "./FormErrors";
+import AuthFormErrors from "./AuthFormErrors";
 
 
-class Form extends Component {
+class AuthForm extends Component {
 
     constructor(props) {
         super(props);
@@ -225,8 +225,8 @@ class Form extends Component {
                     />
                 </form>
             </div>
-        )
+        );
     }
 }
 
-export default Form
+export default AuthForm;

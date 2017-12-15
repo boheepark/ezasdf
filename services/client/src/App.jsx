@@ -5,7 +5,7 @@ import axios from 'axios';
 import UserList from './components/UserList';
 import About from './components/About';
 import NavBar from './components/NavBar';
-import Form from './components/Form';
+import AuthForm from './components/AuthForm';
 import Signout from './components/Signout';
 import UserProfile from './components/UserProfile';
 import Message from './components/Message'
@@ -108,7 +108,7 @@ class App extends Component {
                                 )}/>
                                 <Route exact path='/about' component={About}/>
                                 <Route exact path='/signup' render={() => (
-                                    <Form
+                                    <AuthForm
                                         formType={'signup'}
                                         isAuthenticated={this.state.isAuthenticated}
                                         signinUser={this.signinUser.bind(this)}
@@ -116,7 +116,7 @@ class App extends Component {
                                     />
                                 )}/>
                                 <Route exact path='/signin' render={() => (
-                                    <Form
+                                    <AuthForm
                                         formType={'signin'}
                                         isAuthenticated={this.state.isAuthenticated}
                                         signinUser={this.signinUser.bind(this)}
@@ -139,8 +139,8 @@ class App extends Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default App
+export default App;

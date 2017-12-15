@@ -3,7 +3,7 @@ import {shallow} from 'enzyme';
 import renderer from 'react-test-renderer';
 import {MemoryRouter, Switch, Redirect} from 'react-router-dom';
 
-import Form from '../Form';
+import AuthForm from '../AuthForm';
 
 
 const testData = [
@@ -33,7 +33,7 @@ const testData = [
 
 describe('When not authenticated', () => {
   testData.forEach((el) => {
-    const component = <Form {...el}/>;
+    const component = <AuthForm {...el}/>;
 
     it(`${el.formType} Form renders properly`, () => {
       const wrapper = shallow(component);

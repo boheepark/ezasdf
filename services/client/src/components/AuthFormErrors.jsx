@@ -1,9 +1,9 @@
 import React from 'react';
 
-import './FormErrors.css';
+import './AuthFormErrors.css';
 
 
-const FormErrors = (props) => {
+const AuthFormErrors = (props) => {
     return (
         <div>
             <ul className="validation-list">
@@ -29,7 +29,7 @@ const FormErrors = (props) => {
                 }
             </ul>
         </div>
-    )
+    );
 };
 
-export default FormErrors;
+export default AuthFormErrors;

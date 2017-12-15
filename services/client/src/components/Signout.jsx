@@ -12,8 +12,8 @@ class Signout extends Component {
             <div>
                 <p>You are now signed out. Click <Link to="/signin">here</Link> to sign back in.</p>
             </div>
-        )
+        );
     }
 }
 
-export default Signout
+export default Signout;

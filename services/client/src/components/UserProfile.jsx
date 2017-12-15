@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
-class UserStatus extends Component {
+class UserProfile extends Component {
 
     constructor(props) {
         super(props);
@@ -44,7 +44,7 @@ class UserStatus extends Component {
 
     render() {
         if (!this.props.isAuthenticated) {
-            return <p>You must be signed in to view this page. Click <Link to="/signin">here</Link> to sign in.</p>
+            return <p>You must be signed in to view this. Click <Link to="/signin">here</Link> to sign in.</p>
         }
         return (
             <div>
@@ -55,8 +55,8 @@ class UserStatus extends Component {
                     <li><strong>Created at:</strong> {this.state.created_at}</li>
                 </ul>
             </div>
-        )
+        );
     }
 }
 
-export default UserStatus
+export default UserProfile;
