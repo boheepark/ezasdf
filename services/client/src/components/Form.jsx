@@ -131,8 +131,7 @@ class Form extends Component {
                 email: this.state.formData.email,
                 password: this.state.formData.password
             };
-        }
-        if (formType === 'signup') {
+        } else if (formType === 'signup') {
             data = {
                 username: this.state.formData.username,
                 email: this.state.formData.email,
