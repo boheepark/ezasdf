@@ -17,6 +17,7 @@ ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
 ADD package.json /usr/src/app/package.json
 RUN yarn install
 RUN yarn global add serve
+RUN yarn global add react-scripts
 
 # add app
 ADD . /usr/src/app
