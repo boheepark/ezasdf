@@ -1,6 +1,10 @@
 #!/bin/bash
 
 
+if [ -z ${env} ];
+then
+  env=$1
+fi
 file=""
 fails=""
 
@@ -14,8 +18,8 @@ elif [[ "${env}" == "prod" ]];
 then
   file="docker-compose-prod.yml"
 else
-  echo "Something went wrong."
-  echo "Check env variable."
+  echo "USAGE: sh test.sh environment_name"
+  echo "* environment_name: dev, stage, or prod"
   exit 1
 fi
 
@@ -34,7 +38,7 @@ inspect $? users-lint
 
 if [[ "${env}" == "dev" ]];
 then
-  docker-compose -f $file run client yarn test --coverage
+  docker-compose -f $file run client yarn test --verbose --coverage
   inspect $? client
 fi
 
