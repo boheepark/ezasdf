@@ -176,7 +176,7 @@ class AuthForm extends Component {
                 <h1 style={{'textTransform': 'capitalize'}}>{this.props.formType}</h1>
                 <hr/>
                 <br/>
-                <FormErrors
+                <AuthFormErrors
                     formType={this.props.formType}
                     formRules={this.state.formRules}
                 />

@@ -78,7 +78,7 @@ describe('When not authenticated', () => {
 
 describe('When authenticated', () => {
   testData.forEach((el) => {
-    const component = <Form
+    const component = <AuthForm
       formType={el.formType}
       formData={el.formData}
       isAuthenticated={true}
