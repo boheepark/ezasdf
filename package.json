@@ -1,0 +1,10 @@
+{
+  "name": "ezasdf",
+  "version": "1.0.0",
+  "repository": "https://github.com/boheepark/ezasdf",
+  "author": "Bohee Park <boheepark91@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "testcafe": "^0.18.5"
+  }
+}
