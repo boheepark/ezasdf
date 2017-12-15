@@ -30,7 +30,7 @@ inspect() {
   fi
 }
 
-docker-compose -f $file run users-service flask test
+docker-compose -f $file run users-service flask test --coverage
 inspect $? users
 
 docker-compose -f $file run users-service flake8 project
@@ -41,6 +41,9 @@ then
   docker-compose -f $file run client yarn test --verbose --coverage
   inspect $? client
 fi
+
+testcafe chrome e2e
+inspect $? e2e
 
 if [ -n "${fails}" ];
 then
