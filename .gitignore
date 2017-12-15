@@ -105,5 +105,3 @@ ENV/
 
 # setup
 setup.cmd
-dev.cmd
-prod.cmd
