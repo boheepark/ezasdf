@@ -18,24 +18,15 @@ IF "%env%" == "dev" (
 )
 
 docker-compose -f %file% run users-service flask test
-echo errorlevel: %errorlevel%
-IF NOT %ERRORLEVEL% == 0 (
-  SET fails=%fails% user
-)
-
 docker-compose -f %file% run users-service flake8 project
-echo errorlevel: %errorlevel%
-IF NOT %ERRORLEVEL% == 0 (
-  SET fails=%fails% users-lint
-)
 
 IF "%env%" == "dev" (
   docker-compose -f %file% run client yarn test --coverage
-  echo errorlevel: %errorlevel%
-  IF NOT %ERRORLEVEL% == 0 (
-    SET fails=%fails% client
-  )
 )
+
+testcafe chrome e2e
+
+testcafe firefox e2e
 
 IF NOT %fails% == "" (
   ECHO Tests failed: %fails%
