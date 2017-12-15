@@ -29,7 +29,7 @@ const AuthFormErrors = (props) => {
                 </li>
               );
             }
-          });
+          })
         }
       </ul>
     </div>

@@ -22,14 +22,11 @@ test(`should display the sign in form`, async (t) => {
     .expect(Selector('input[disabled]').exists).ok()
     .expect(Selector('.validation-list').exists).ok()
     .expect(Selector('.validation-list > .error').nth(0).withText(
-      'Email must be greater than 5 characters.'
-    ).exists).ok()
+      'Email must be greater than 5 characters.').exists).ok()
     .expect(Selector('.validation-list > .error').nth(1).withText(
-      'Email must be a valid email address.'
-    ).exists).ok()
+      'Email must be a valid email address.').exists).ok()
     .expect(Selector('.validation-list > .error').nth(2).withText(
-      'Password must be greater than 10 characters.'
-    ).exists).ok();
+      'Password must be greater than 10 characters.').exists).ok();
 });
 
 
@@ -40,20 +37,16 @@ test(`should validate the password field`, async (t) => {
     .expect(Selector('form').exists).ok()
     .expect(Selector('input[disabled]').exists).ok()
     .expect(Selector('.validation-list > .error').nth(2).withText(
-      'Password must be greater than 10 characters.'
-    ).exists).ok()
+      'Password must be greater than 10 characters.').exists).ok()
     .typeText('input[name="password"]', password)
     .expect(Selector('.validation-list').exists).ok()
     .expect(Selector('.validation-list > .error').nth(2).withText(
-      'Password must be greater than 10 characters.'
-    ).exists).notOk()
+      'Password must be greater than 10 characters.').exists).notOk()
     .expect(Selector('.validation-list > .success').nth(0).withText(
-      'Password must be greater than 10 characters.'
-    ).exists).ok()
+      'Password must be greater than 10 characters.').exists).ok()
     .click(Selector('a').withText('Sign Up'))
     .expect(Selector('.validation-list > .error').nth(3).withText(
-      'Password must be greater than 10 characters.'
-    ).exists).ok();
+      'Password must be greater than 10 characters.').exists).ok();
 });
 
 
@@ -123,8 +116,7 @@ test(`should throw an error if the credentials are invalid`, async (t) => {
     .expect(Selector('a').withText('Sign In').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
-      'Signin failed.'
-    ).exists).ok();
+      'Signin failed.').exists).ok();
 
   // attempt to sign in with invalid password
   await t

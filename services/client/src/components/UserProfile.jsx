@@ -48,7 +48,9 @@ class UserProfile extends Component {
 
     render() {
         if (!this.props.isAuthenticated) {
-            return <p>You must be signed in to view this page. Click <Link to="/signin">here</Link> to sign in.</p>
+            return (
+              <p>You must be signed in to view this page. Click <Link to="/signin">here</Link> to sign in.</p>
+            );
         }
         return (
             <div>
