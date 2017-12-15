@@ -50,6 +50,7 @@ class User(db.Model):
             'username': self.username,
             'email': self.email,
             'active': self.active,
+            'admin': self.admin,
             'created_at': self.created_at
         }
 
