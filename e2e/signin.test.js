@@ -116,7 +116,7 @@ test(`should throw an error if the credentials are invalid`, async (t) => {
     .expect(Selector('a').withText('Sign In').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
-      'Signin failed.').exists).ok();
+      'signin failed.').exists).ok();
 
   // attempt to sign in with invalid password
   await t
@@ -134,6 +134,5 @@ test(`should throw an error if the credentials are invalid`, async (t) => {
     .expect(Selector('a').withText('Sign In').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
-      'Signin failed.'
-    ).exists).ok();
+      'signin failed.').exists).ok();
 });

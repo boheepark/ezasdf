@@ -80,8 +80,7 @@ test(`should throw an error if the username is taken`, async (t) => {
     .expect(Selector('a').withText('Sign In').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
-      'That user already exists.'
-    ).exists).ok();
+      'signup failed.').exists).ok();
 });
 
 
@@ -104,6 +103,5 @@ test(`should throw an error if the email is taken`, async (t) => {
     .expect(Selector('a').withText('Sign In').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
-      'That user already exists.'
-    ).exists).ok();
+      'signup failed.').exists).ok();
 });
