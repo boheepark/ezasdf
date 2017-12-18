@@ -151,6 +151,7 @@ class AuthForm extends Component {
     if (this.props.isAuthenticated) {
       return <Redirect to='/'/>;
     }
+    let formRules = eval(`this.state.${this.props.formType}FormRules`);
     return (
       <div>
         <h1 style={{'textTransform': 'capitalize'}}>{this.props.formType}</h1>
@@ -158,7 +159,7 @@ class AuthForm extends Component {
         <br/>
         <AuthFormErrors
           formType={this.props.formType}
-          formRules={this.state.formRules}
+          formRules={formRules}
         />
         <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
           {
