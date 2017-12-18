@@ -22,9 +22,10 @@ cache:
     - node_modules
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.17.1
-  REACT_APP_USERS_SERVICE_URL: http://127.0.0.1
-  TEST_URL: http://127.0.0.1
+  global:
+    - DOCKER_COMPOSE_VERSION=1.17.1
+    - REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
+    - TEST_URL=http://127.0.0.1
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
