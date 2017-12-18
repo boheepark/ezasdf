@@ -13,7 +13,7 @@ const users = [
     'email': 'test@email.com',
     'active': true,
     'admin': false,
-    'created_at': date.toString()
+    'created_at': date.toUTCString()
   },
   {
     'id': 2,
@@ -21,7 +21,7 @@ const users = [
     'email': 'test2@email.com',
     'active': true,
     'admin': false,
-    'created_at': date.toString()
+    'created_at': date.toUTCString()
   }
 ];
 
@@ -62,11 +62,11 @@ test('UserList renders properly', () => {
   expect(td.get(2).props.children).toBe('test@email.com');
   expect(td.get(3).props.children).toBe('true');
   expect(td.get(4).props.children).toBe('false');
-  expect(td.get(5).props.children).toBe(date.toString());
+  expect(td.get(5).props.children).toBe(date.toUTCString());
 });
 
 
 test('UserList renders a snapshot properly', () => {
   const tree = renderer.create(<UserList users={users}/>).toJSON();
   expect(tree).toMatchSnapshot();
-})
+});
