@@ -10,8 +10,8 @@ test(`should display the page correctly if a user is not signed in`, async (t) =
     .navigateTo(TEST_URL)
     .expect(Selector('H1').withText('All Users').exists).ok()
     .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Sign Out').exists).notOk()
-    .expect(Selector('a').withText('Sign Up').exists).ok()
-    .expect(Selector('a').withText('Sign In').exists).ok()
+    .expect(Selector('a').withText('Signout').exists).notOk()
+    .expect(Selector('a').withText('Signup').exists).ok()
+    .expect(Selector('a').withText('Signin').exists).ok()
     .expect(Selector('.alert').exists).notOk();
 });

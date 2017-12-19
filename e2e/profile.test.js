@@ -17,11 +17,12 @@ test(`Should not display profile if the user is not signed in.`, async (t) => {
   await t
     .navigateTo(`${TEST_URL}/profile`)
     .expect(Selector('p').withText(
-      'You must be signed in to view this page.').exists).ok()
+      'You must be signed in to view this page.'
+    ).exists).ok()
     .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Sign Out').exists).notOk()
-    .expect(Selector('a').withText('Sign Up').exists).ok()
-    .expect(Selector('a').withText('Sign In').exists).ok();
+    .expect(Selector('a').withText('Signout').exists).notOk()
+    .expect(Selector('a').withText('Signup').exists).ok()
+    .expect(Selector('a').withText('Signin').exists).ok();
 });
 
 

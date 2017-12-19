@@ -12,7 +12,7 @@ const TEST_URL = process.env.TEST_URL;
 fixture('/signin').page(`${TEST_URL}/signin`);
 
 
-test(`should display the sign in form`, async (t) => {
+test(`should display the signin form`, async (t) => {
   await t
     .navigateTo(`${TEST_URL}/signin`)
     .expect(Selector('H1').withText('Signin').exists).ok()
@@ -22,11 +22,14 @@ test(`should display the sign in form`, async (t) => {
     .expect(Selector('input[disabled]').exists).ok()
     .expect(Selector('.validation-list').exists).ok()
     .expect(Selector('.validation-list > .error').nth(0).withText(
-      'Email must be greater than 5 characters.').exists).ok()
+      'Email must be greater than 5 characters.'
+    ).exists).ok()
     .expect(Selector('.validation-list > .error').nth(1).withText(
-      'Email must be a valid email address.').exists).ok()
+      'Email must be a valid email address.'
+    ).exists).ok()
     .expect(Selector('.validation-list > .error').nth(2).withText(
-      'Password must be greater than 10 characters.').exists).ok();
+      'Password must be greater than 10 characters.'
+    ).exists).ok();
 });
 
 
@@ -37,20 +40,24 @@ test(`should validate the password field`, async (t) => {
     .expect(Selector('form').exists).ok()
     .expect(Selector('input[disabled]').exists).ok()
     .expect(Selector('.validation-list > .error').nth(2).withText(
-      'Password must be greater than 10 characters.').exists).ok()
+      'Password must be greater than 10 characters.'
+    ).exists).ok()
     .typeText('input[name="password"]', password)
     .expect(Selector('.validation-list').exists).ok()
     .expect(Selector('.validation-list > .error').nth(2).withText(
-      'Password must be greater than 10 characters.').exists).notOk()
+      'Password must be greater than 10 characters.'
+    ).exists).notOk()
     .expect(Selector('.validation-list > .success').nth(0).withText(
-      'Password must be greater than 10 characters.').exists).ok()
-    .click(Selector('a').withText('Sign Up'))
+      'Password must be greater than 10 characters.'
+    ).exists).ok()
+    .click(Selector('a').withText('Signup'))
     .expect(Selector('.validation-list > .error').nth(3).withText(
-      'Password must be greater than 10 characters.').exists).ok();
+      'Password must be greater than 10 characters.'
+    ).exists).ok();
 });
 
 
-test(`should allow a user to sign in`, async (t) => {
+test(`should allow a user to signin`, async (t) => {
 
   // signup user
   await t
@@ -62,7 +69,7 @@ test(`should allow a user to sign in`, async (t) => {
 
   // sign a user out
   await t
-    .click(Selector('a').withText('Sign Out'));
+    .click(Selector('a').withText('Signout'));
 
   // sign a user in
   await t
@@ -79,28 +86,28 @@ test(`should allow a user to sign in`, async (t) => {
     .expect(tr.child().withText(username).exists).ok()
     .expect(tr.child().withText(email).exists).ok()
     .expect(Selector('a').withText('Profile').exists).ok()
-    .expect(Selector('a').withText('Sign Out').exists).ok()
-    .expect(Selector('a').withText('Sign Up').exists).notOk()
-    .expect(Selector('a').withText('Sign In').exists).notOk()
+    .expect(Selector('a').withText('Signout').exists).ok()
+    .expect(Selector('a').withText('Signup').exists).notOk()
+    .expect(Selector('a').withText('Signin').exists).notOk()
     .expect(Selector('.alert-success').withText('Welcome!').exists).ok();
 
   // sign a user out
   await t
-    .click(Selector('a').withText('Sign Out'));
+    .click(Selector('a').withText('Signout'));
 
   // assert '/signout' is displayed properly
   await t
     .expect(Selector('p').withText('You are now signed out').exists).ok()
     .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Sign Out').exists).notOk()
-    .expect(Selector('a').withText('Sign Up').exists).ok()
-    .expect(Selector('a').withText('Sign In').exists).ok();
+    .expect(Selector('a').withText('Signout').exists).notOk()
+    .expect(Selector('a').withText('Signup').exists).ok()
+    .expect(Selector('a').withText('Signin').exists).ok();
 });
 
 
 test(`should throw an error if the credentials are invalid`, async (t) => {
 
-  // attempt to sign in with invalid email
+  // attempt to signin with invalid email
   await t
     .navigateTo(`${TEST_URL}/signin`)
     .typeText('input[name="email"]', 'invalid@email.com')
@@ -111,14 +118,15 @@ test(`should throw an error if the credentials are invalid`, async (t) => {
   await t
     .expect(Selector('H1').withText('Signin').exists).ok()
     .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Sign Out').exists).notOk()
-    .expect(Selector('a').withText('Sign Up').exists).ok()
-    .expect(Selector('a').withText('Sign In').exists).ok()
+    .expect(Selector('a').withText('Signout').exists).notOk()
+    .expect(Selector('a').withText('Signup').exists).ok()
+    .expect(Selector('a').withText('Signin').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
-      'signin failed.').exists).ok();
+      'signin failed.'
+    ).exists).ok();
 
-  // attempt to sign in with invalid password
+  // attempt to signin with invalid password
   await t
     .navigateTo(`${TEST_URL}/signin`)
     .typeText('input[name="email"]', email)
@@ -129,10 +137,11 @@ test(`should throw an error if the credentials are invalid`, async (t) => {
   await t
     .expect(Selector('H1').withText('Signin').exists).ok()
     .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Sign Out').exists).notOk()
-    .expect(Selector('a').withText('Sign Up').exists).ok()
-    .expect(Selector('a').withText('Sign In').exists).ok()
+    .expect(Selector('a').withText('Signout').exists).notOk()
+    .expect(Selector('a').withText('Signup').exists).ok()
+    .expect(Selector('a').withText('Signin').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
-      'signin failed.').exists).ok();
+      'signin failed.'
+    ).exists).ok();
 });

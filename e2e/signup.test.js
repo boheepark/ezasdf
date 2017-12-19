@@ -57,7 +57,7 @@ test('should validate the password field', async (t) => {
 });
 
 
-test(`should allow a user to sign up`, async (t) => {
+test(`should allow a user to signup`, async (t) => {
 
   // signup user
   await t
@@ -95,9 +95,9 @@ test(`should throw an error if the username is taken`, async (t) => {
   await t
     .expect(Selector('H1').withText('Signup').exists).ok()
     .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Sign Out').exists).notOk()
-    .expect(Selector('a').withText('Sign Up').exists).ok()
-    .expect(Selector('a').withText('Sign In').exists).ok()
+    .expect(Selector('a').withText('Signout').exists).notOk()
+    .expect(Selector('a').withText('Signup').exists).ok()
+    .expect(Selector('a').withText('Signin').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
       'signup failed.'
@@ -119,9 +119,9 @@ test(`should throw an error if the email is taken`, async (t) => {
   await t
     .expect(Selector('H1').withText('Signup').exists).ok()
     .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Sign Out').exists).notOk()
-    .expect(Selector('a').withText('Sign Up').exists).ok()
-    .expect(Selector('a').withText('Sign In').exists).ok()
+    .expect(Selector('a').withText('Signout').exists).notOk()
+    .expect(Selector('a').withText('Signup').exists).ok()
+    .expect(Selector('a').withText('Signin').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
       'signup failed.'
