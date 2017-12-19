@@ -25,7 +25,7 @@ env:
   global:
     - DOCKER_COMPOSE_VERSION=1.17.1
     - REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
-    - TEST_URL=http://127.0.0.1:3000
+    - TEST_URL=http://127.0.0.1
     - SECRET_KEY=secret
     - DISPLAY=:99.0
 
@@ -39,10 +39,10 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
-  - docker-compose -f docker-compose-dev.yml up -d --build
+  - docker-compose -f docker-compose-prod.yml up -d --build
 
 script:
   - bash test.sh stage
 
 after_script:
-  - docker-compose -f docker-compose-dev.yml down
+  - docker-compose -f docker-compose-prod.yml down
