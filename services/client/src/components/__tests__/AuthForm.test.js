@@ -15,7 +15,6 @@ const testData = [
       password: ''
     },
     isAuthenticated: false,
-    // handleChange: jest.fn(),
     signin: jest.fn(),
   },
   {
@@ -25,7 +24,6 @@ const testData = [
       password: ''
     },
     isAuthenticated: false,
-    // handleChange: jest.fn(),
     signin: jest.fn(),
   }
 ];
@@ -62,7 +60,6 @@ describe('When not authenticated', () => {
       wrapper.update();
       const input = wrapper.find('input[type="email"]');
       expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(0);
-      // expect(el.handleChange).toHaveBeenCalledTimes(0);
       input.simulate(
         'change',
         {
@@ -72,7 +69,6 @@ describe('When not authenticated', () => {
           }
         }
       );
-      // expect(el.handleChange).toHaveBeenCalledTimes(1);
       wrapper.find('form').simulate('submit', el.data);
       expect(wrapper.instance().handleSubmit).toHaveBeenCalledWith(el.data);
       expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(1);
