@@ -80,9 +80,9 @@ test(`should allow a user to signup`, async (t) => {
     .expect(tr.child().withText(USERNAME).exists).ok()
     .expect(tr.child().withText(EMAIL).exists).ok()
     .expect(Selector('a').withText('Profile').exists).ok()
-    .expect(Selector('a').withText('Sign Out').exists).ok()
-    .expect(Selector('a').withText('Sign Up').exists).notOk()
-    .expect(Selector('a').withText('Sign In').exists).notOk();
+    .expect(Selector('a').withText('Signout').exists).ok()
+    .expect(Selector('a').withText('Signup').exists).notOk()
+    .expect(Selector('a').withText('Signin').exists).notOk();
 });
 
 
