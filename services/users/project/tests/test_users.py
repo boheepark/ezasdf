@@ -95,6 +95,32 @@ class TestUsersBlueprint(BaseTestCase):
             )
             self.assert401(response)
 
+    def test_post_users_inactive_admin(self):
+        """ Verify not active admins cannot add a new user. """
+
+        self.admin.active = False
+        db.session.commit()
+        with self.client:
+            response = self.client.post(
+                '/users',
+                data=json.dumps({
+                    'username': self.USERNAME2,
+                    'email': self.EMAIL2,
+                    'password': self.PASSWORD
+                }),
+                content_type='application/json',
+                headers={
+                    'Authorization': 'Bearer ' + self.get_jwt(self.admin)
+                }
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(data['status'], 'error')
+            self.assertEqual(
+                data['message'],
+                'Something went wrong. Please contact us.'
+            )
+            self.assert401(response)
+
     def test_post_users(self):
         """ Verify POST request to /users adds a new user to the database. """
 
@@ -291,33 +317,6 @@ class TestUsersBlueprint(BaseTestCase):
             self.assertEqual(response.content_type, 'application/json')
             self.assert400(response)
 
-    def test_post_users_inactive_user(self):
-        """ Verify adding an inactive user throws an error. """
-
-        user = add_user(self.USERNAME, self.EMAIL, self.PASSWORD)
-        user.active = False
-        db.session.commit()
-        with self.client:
-            response = self.client.post(
-                '/users',
-                data=json.dumps({
-                    'username': self.USERNAME2,
-                    'email': self.EMAIL2,
-                    'password': self.PASSWORD
-                }),
-                content_type='application/json',
-                headers={
-                    'Authorization': 'Bearer ' + self.get_jwt(user)
-                }
-            )
-            data = json.loads(response.data.decode())
-            self.assertEqual(data['status'], 'error')
-            self.assertEqual(
-                data['message'],
-                'Something went wrong. Please contact us.'
-            )
-            self.assert401(response)
-
     def test_get_users_by_id(self):
         """ Verify GET request to /users/{user_id} fetches a user. """
 
@@ -357,7 +356,7 @@ class TestUsersBlueprint(BaseTestCase):
             self.assert404(response)
 
     def test_get_users_invalid_id_value(self):
-        """ Verify requesting the invalid id 'blah' throws an error. """
+        """ Verify fetching the invalid id 'blah' throws an error. """
 
         with self.client:
             response = self.client.get(
