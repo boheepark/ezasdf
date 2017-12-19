@@ -51,7 +51,12 @@ test('should validate the password field', async (t) => {
     .expect(Selector('.validation-list > .error').nth(3).withText(
       'Password must be greater than 10 characters.'
     ).exists).notOk()
-    .expect(Selector('.validation-list > .success').nth(3).withText(
+    .expect(Selector('.validation-list > .success').nth(0).withText(
+      'Password must be greater than 10 characters.'
+    ).exists).ok()
+    .click(Selector('a').withText('Signin'))
+    .click(Selector('a').withText('Signup'))
+    .expect(Selector('.validation-list > .error').nth(3).withText(
       'Password must be greater than 10 characters.'
     ).exists).ok();
 });
