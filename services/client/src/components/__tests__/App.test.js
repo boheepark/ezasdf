@@ -18,8 +18,7 @@ test('App renders without crashing', () => {
 
 
 test('App will call componentWillMount when mounted', () => {
-  const onWillMount = jest.fn();
-  App.prototype.componentWillMount = onWillMount;
+  App.prototype.componentWillMount = jest.fn();
   const wrapper = mount(
     <Router>
       <App/>
