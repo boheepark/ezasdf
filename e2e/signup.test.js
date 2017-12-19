@@ -37,6 +37,26 @@ test(`should display the signup form`, async (t) => {
 });
 
 
+test('should validate the password field', async (t) => {
+  await t
+    .navigateTo(`${TEST_URL}/signup`)
+    .expect(Selector('H1').withText('Signup').exists).ok()
+    .expect(Selector('form').exists).ok()
+    .expect(Selector('input[disabled]').exists).ok()
+    .expect(Selector('.validation-list').exists).ok()
+    .expect(Selector('.validation-list > .error').nth(3).withText(
+      'Password must be greater than 10 characters.'
+    ).exists).ok()
+    .typeText('input[name="password"]', password)
+    .expect(Selector('.validation-list > .error').nth(3).withText(
+      'Password must be greater than 10 characters.'
+    ).exists).notOk()
+    .expect(Selector('.validation-list > .success').nth(3).withText(
+      'Password must be greater than 10 characters.'
+    ).exists).ok();
+});
+
+
 test(`should allow a user to sign up`, async (t) => {
 
   // signup user
@@ -80,7 +100,8 @@ test(`should throw an error if the username is taken`, async (t) => {
     .expect(Selector('a').withText('Sign In').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
-      'signup failed.').exists).ok();
+      'signup failed.'
+    ).exists).ok();
 });
 
 
@@ -89,8 +110,8 @@ test(`should throw an error if the email is taken`, async (t) => {
   // signup user with duplicate email
   await t
     .navigateTo(`${TEST_URL}/signup`)
-    .typeText('input[name="username"]', username)
-    .typeText('input[name="email"]', `${email}unique`)
+    .typeText('input[name="username"]', `${username}unique`)
+    .typeText('input[name="email"]', email)
     .typeText('input[name="password"]', password)
     .click(Selector('input[type="submit"]'));
 
@@ -103,5 +124,6 @@ test(`should throw an error if the email is taken`, async (t) => {
     .expect(Selector('a').withText('Sign In').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
-      'signup failed.').exists).ok();
+      'signup failed.'
+    ).exists).ok();
 });
