@@ -86,15 +86,6 @@ class AuthForm extends Component {
     });
   };
 
-  initRules() {
-    const rules = this.state.rules;
-    for (const rule of rules) {
-      rule.valid = false;
-    }
-    this.setState({
-      rules: rules
-    });
-  };
 
   allTrue() {
     let rules;
@@ -110,6 +101,16 @@ class AuthForm extends Component {
     }
     return true;
   };
+
+  // initRules() {
+  //   const rules = this.state.rules;
+  //   for (const rule of rules) {
+  //     rule.valid = false;
+  //   }
+  //   this.setState({
+  //     rules: rules
+  //   });
+  // };
 
   resetRules() {
     if(this.props.form === 'signin') {
