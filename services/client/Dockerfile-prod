@@ -16,7 +16,8 @@ ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
 RUN yarn
-RUN yarn global add serve
+# RUN yarn global add serve
+RUN yarn global add pushstate-server
 RUN yarn global add react-scripts
 
 # add app
@@ -26,4 +27,5 @@ ADD . /usr/src/app
 RUN yarn build
 
 # start app
-CMD ["serve", "-p", "3000", "build"]
+# CMD ["serve", "-p", "3000", "build"]
+CMD ["pushstate-server", "build", "3000"]
