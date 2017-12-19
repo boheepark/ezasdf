@@ -34,8 +34,7 @@ class BaseTestCase(TestCase):
         db.session.commit()
 
         self.admin = add_user('admin', 'admin@email.com', 'password')
-        user = User.query.filter_by(email='admin@email.com').first()
-        user.admin = True
+        self.admin.admin = True
         db.session.commit()
 
     def tearDown(self):
