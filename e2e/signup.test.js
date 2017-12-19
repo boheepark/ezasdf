@@ -69,11 +69,11 @@ test(`should allow a user to sign up`, async (t) => {
 
   // assert user is redirected to '/'
   // assert '/' is displayed properly
-  const tableRow = Selector('td').withText(username).parent();
+  const tr = Selector('td').withText(username).parent();
   await t
     .expect(Selector('H1').withText('All Users').exists).ok()
-    .expect(tableRow.child().withText(username).exists).ok()
-    .expect(tableRow.child().withText(email).exists).ok()
+    .expect(tr.child().withText(username).exists).ok()
+    .expect(tr.child().withText(email).exists).ok()
     .expect(Selector('a').withText('Profile').exists).ok()
     .expect(Selector('a').withText('Sign Out').exists).ok()
     .expect(Selector('a').withText('Sign Up').exists).notOk()
