@@ -96,7 +96,13 @@ class AuthForm extends Component {
   };
 
   allTrue() {
-    for (const rule of this.state.rules) {
+    let rules;
+    if(this.props.form === 'signup') {
+      rules = signupRules;
+    } else if(this.props.form === 'signin') {
+      rules = signinRules;
+    }
+    for (const rule of rules) {
       if (!rule.valid) {
         return false;
       }
@@ -111,47 +117,70 @@ class AuthForm extends Component {
   };
 
   validateForm() {
-    const form = this.props.form;
-    const rules = this.state.rules;
     const data = this.state.data;
-    this.setState({
-      valid: false
-    });
-    for (const rule of rules) {
-      rule.valid = false;
-    }
-    if (form === 'signup') {
-      if (data.username.length > 5) {
-        rules[0].valid = true;
+
+    this.resetRules();
+
+    if(this.props.form === 'signup') {
+      const rules = this.state.signupRules;
+      if(data.password.length > 10) {
+        rules[3].valid = true;
+      }
+      this.setState({
+        signupRules: rules
+      });
+      if(this.allTrue()) {
+        this.setState({
+          valid: true
+        });
       }
     }
-    if (form === 'signin') {
-      rules[0].valid = true;
-    }
-    if (data.email.length > 5) {
-      rules[1].valid = true;
-    }
-    if (this.validateEmail(data.email)) {
-      rules[2].valid = true;
-    }
-    if (data.password.length > 10) {
-      rules[3].valid = true;
-    }
-    this.setState({
-      rules: rules
-    });
-    if (this.allTrue()) {
-      this.setState({
-        valid: true
-      });
-    }
+    // const form = this.props.form;
+    // const rules = this.state.rules;
+    // const data = this.state.data;
+    // this.setState({
+    //   valid: false
+    // });
+    // for (const rule of rules) {
+    //   rule.valid = false;
+    // }
+    // if (form === 'signup') {
+    //   if (data.username.length > 5) {
+    //     rules[0].valid = true;
+    //   }
+    // }
+    // if (form === 'signin') {
+    //   rules[0].valid = true;
+    // }
+    // if (data.email.length > 5) {
+    //   rules[1].valid = true;
+    // }
+    // if (this.validateEmail(data.email)) {
+    //   rules[2].valid = true;
+    // }
+    // if (data.password.length > 10) {
+    //   rules[3].valid = true;
+    // }
+    // this.setState({
+    //   rules: rules
+    // });
+    // if (this.allTrue()) {
+    //   this.setState({
+    //     valid: true
+    //   });
+    // }
   };
 
   render() {
     if (this.props.isAuthenticated) {
       return <Redirect to='/'/>;
     }
-    let rules = eval(`this.state.${this.props.form}Rules`);
+    let rules;
+    if(this.props.form === 'signup') {
+      rules = this.state.signupRules;
+    } else if (this.props.form === 'signin') {
+      rules = this.state.signinRules;
+    }
     return (
       <div>
         <h1 style={{'textTransform': 'capitalize'}}>{this.props.form}</h1>
