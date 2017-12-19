@@ -148,6 +148,15 @@ class AuthForm extends Component {
 
     if(this.props.form === 'signup') {
       const rules = this.state.signupRules;
+      if(data.username.length > 5) {
+        rules[0].valid = true;
+      }
+      if(data.email.length > 5) {
+        rules[1].valid = true;
+      }
+      if(this.validateEmail(data.email)) {
+        rules[2].valid = true;
+      }
       if(data.password.length > 10) {
         rules[3].valid = true;
       }
@@ -159,41 +168,23 @@ class AuthForm extends Component {
           valid: true
         });
       }
+    } else if(this.props.form === 'signin') {
+      const rules = this.state.signinRules;
+      if(data.email.length > 0) {
+        rules[0].valid = true;
+      }
+      if(data.password.length > 0) {
+        rules[1].valid = true;
+      }
+      this.setState({
+        signinRules: rules
+      });
+      if(this.allTrue()) {
+        this.setState({
+          valid: true
+        });
+      }
     }
-    // const form = this.props.form;
-    // const rules = this.state.rules;
-    // const data = this.state.data;
-    // this.setState({
-    //   valid: false
-    // });
-    // for (const rule of rules) {
-    //   rule.valid = false;
-    // }
-    // if (form === 'signup') {
-    //   if (data.username.length > 5) {
-    //     rules[0].valid = true;
-    //   }
-    // }
-    // if (form === 'signin') {
-    //   rules[0].valid = true;
-    // }
-    // if (data.email.length > 5) {
-    //   rules[1].valid = true;
-    // }
-    // if (this.validateEmail(data.email)) {
-    //   rules[2].valid = true;
-    // }
-    // if (data.password.length > 10) {
-    //   rules[3].valid = true;
-    // }
-    // this.setState({
-    //   rules: rules
-    // });
-    // if (this.allTrue()) {
-    //   this.setState({
-    //     valid: true
-    //   });
-    // }
   };
 
   render() {
