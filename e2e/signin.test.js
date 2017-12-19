@@ -22,39 +22,36 @@ test(`should display the signin form`, async (t) => {
     .expect(Selector('input[disabled]').exists).ok()
     .expect(Selector('.validation-list').exists).ok()
     .expect(Selector('.validation-list > .error').nth(0).withText(
-      'Email must be greater than 5 characters.'
+      'Email is required.'
     ).exists).ok()
     .expect(Selector('.validation-list > .error').nth(1).withText(
-      'Email must be a valid email address.'
-    ).exists).ok()
-    .expect(Selector('.validation-list > .error').nth(2).withText(
-      'Password must be greater than 10 characters.'
+      'Password is required.'
     ).exists).ok();
 });
 
 
-test(`should validate the password field`, async (t) => {
-  await t
-    .navigateTo(`${TEST_URL}/signin`)
-    .expect(Selector('H1').withText('Signin').exists).ok()
-    .expect(Selector('form').exists).ok()
-    .expect(Selector('input[disabled]').exists).ok()
-    .expect(Selector('.validation-list > .error').nth(2).withText(
-      'Password must be greater than 10 characters.'
-    ).exists).ok()
-    .typeText('input[name="password"]', password)
-    .expect(Selector('.validation-list').exists).ok()
-    .expect(Selector('.validation-list > .error').nth(2).withText(
-      'Password must be greater than 10 characters.'
-    ).exists).notOk()
-    .expect(Selector('.validation-list > .success').nth(0).withText(
-      'Password must be greater than 10 characters.'
-    ).exists).ok()
-    .click(Selector('a').withText('Signup'))
-    .expect(Selector('.validation-list > .error').nth(3).withText(
-      'Password must be greater than 10 characters.'
-    ).exists).ok();
-});
+// test(`should validate the password field`, async (t) => {
+//   await t
+//     .navigateTo(`${TEST_URL}/signin`)
+//     .expect(Selector('H1').withText('Signin').exists).ok()
+//     .expect(Selector('form').exists).ok()
+//     .expect(Selector('input[disabled]').exists).ok()
+//     .expect(Selector('.validation-list > .error').nth(2).withText(
+//       'Password must be greater than 10 characters.'
+//     ).exists).ok()
+//     .typeText('input[name="password"]', password)
+//     .expect(Selector('.validation-list').exists).ok()
+//     .expect(Selector('.validation-list > .error').nth(2).withText(
+//       'Password must be greater than 10 characters.'
+//     ).exists).notOk()
+//     .expect(Selector('.validation-list > .success').nth(0).withText(
+//       'Password must be greater than 10 characters.'
+//     ).exists).ok()
+//     .click(Selector('a').withText('Signup'))
+//     .expect(Selector('.validation-list > .error').nth(3).withText(
+//       'Password must be greater than 10 characters.'
+//     ).exists).ok();
+// });
 
 
 test(`should allow a user to signin`, async (t) => {
