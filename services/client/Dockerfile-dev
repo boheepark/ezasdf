@@ -9,8 +9,11 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
 ADD package.json /usr/src/app/package.json
-RUN yarn install
+RUN yarn
 RUN yarn global add react-scripts
+
+# add app
+ADD . /usr/src/app
 
 # start app
 CMD ["yarn", "start"]
