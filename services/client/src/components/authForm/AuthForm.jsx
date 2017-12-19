@@ -19,8 +19,60 @@ class AuthForm extends Component {
       signinRules: signinRules,
       valid: false
     };
-    this.handleUserFormSubmit = this.handleUserFormSubmit.bind(this);
-    this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  };
+
+  componentDidMount() {
+    this.clearForm();
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.form !== nextProps.form) {
+      this.clearForm();
+      this.initRules();
+    }
+  };
+
+  handleChange(event) {
+    const data = this.state.data;
+    data[event.target.name] = event.target.value;
+    this.setState(data);
+    this.validateForm();
+  };
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const form = this.props.form;
+    let data;
+    if (form === 'signin') {
+      data = {
+        email: this.state.data.email,
+        password: this.state.data.password
+      };
+    } else if (form === 'signup') {
+      data = {
+        username: this.state.data.username,
+        email: this.state.data.email,
+        password: this.state.data.password
+      };
+    }
+    const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${form}`;
+    axios.post(url, data)
+    .then((res) => {
+      this.clearForm();
+      this.props.signinUser(res.data.data.token);
+    })
+    .catch((err) => {
+      console.log(err);
+      this.props.createMessage(`${form} failed.`, 'danger');
+      // if(form === 'signin') {
+      //   this.props.createMessage('Signin failed.', 'danger');
+      // }
+      // if(form === 'signup') {
+      //   this.props.createMessage('Signup failed.', 'danger');
+      // }
+    });
   };
 
   clearForm() {
@@ -95,58 +147,6 @@ class AuthForm extends Component {
     }
   };
 
-  handleFormChange(event) {
-    const data = this.state.data;
-    data[event.target.name] = event.target.value;
-    this.setState(data);
-    this.validateForm();
-  };
-
-  handleUserFormSubmit(event) {
-    event.preventDefault();
-    const form = this.props.form;
-    let data;
-    if (form === 'signin') {
-      data = {
-        email: this.state.data.email,
-        password: this.state.data.password
-      };
-    } else if (form === 'signup') {
-      data = {
-        username: this.state.data.username,
-        email: this.state.data.email,
-        password: this.state.data.password
-      };
-    }
-    const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${form}`;
-    axios.post(url, data)
-    .then((res) => {
-      this.clearForm();
-      this.props.signinUser(res.data.data.token);
-    })
-    .catch((err) => {
-      console.log(err);
-      this.props.createMessage(`${form} failed.`, 'danger');
-      // if(form === 'signin') {
-      //   this.props.createMessage('Signin failed.', 'danger');
-      // }
-      // if(form === 'signup') {
-      //   this.props.createMessage('Signup failed.', 'danger');
-      // }
-    });
-  };
-
-  componentDidMount() {
-    this.clearForm();
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.form !== nextProps.form) {
-      this.clearForm();
-      this.initRules();
-    }
-  };
-
   render() {
     if (this.props.isAuthenticated) {
       return <Redirect to='/'/>;
@@ -161,7 +161,7 @@ class AuthForm extends Component {
           form={this.props.form}
           rules={rules}
         />
-        <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
+        <form onSubmit={(event) => this.handleSubmit(event)}>
           {
             this.props.form === 'signup' &&
             <div className="form-group">
@@ -172,7 +172,7 @@ class AuthForm extends Component {
                 placeholder="Enter a username"
                 required
                 value={this.state.data.username}
-                onChange={this.handleFormChange}
+                onChange={this.handleChange}
               />
             </div>
           }
@@ -184,7 +184,7 @@ class AuthForm extends Component {
               placeholder="Enter an email address"
               required
               value={this.state.data.email}
-              onChange={this.handleFormChange}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
@@ -195,7 +195,7 @@ class AuthForm extends Component {
               placeholder="Enter a password"
               required
               value={this.state.data.password}
-              onChange={this.handleFormChange}
+              onChange={this.handleChange}
             />
           </div>
           <input

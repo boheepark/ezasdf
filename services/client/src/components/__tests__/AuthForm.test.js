@@ -15,8 +15,8 @@ const testData = [
       password: ''
     },
     isAuthenticated: false,
-    // handleFormChange: jest.fn(),
-    signinUser: jest.fn(),
+    // handleChange: jest.fn(),
+    signin: jest.fn(),
   },
   {
     form: 'signin',
@@ -25,8 +25,8 @@ const testData = [
       password: ''
     },
     isAuthenticated: false,
-    // handleFormChange: jest.fn(),
-    signinUser: jest.fn(),
+    // handleChange: jest.fn(),
+    signin: jest.fn(),
   }
 ];
 
@@ -57,12 +57,12 @@ describe('When not authenticated', () => {
 
     it(`${el.form} Form submits the form properly`, () => {
       const wrapper = shallow(component);
-      wrapper.instance().handleUserFormSubmit = jest.fn();
+      wrapper.instance().handleSubmit = jest.fn();
       wrapper.instance().validateForm = jest.fn();
       wrapper.update();
       const input = wrapper.find('input[type="email"]');
-      expect(wrapper.instance().handleUserFormSubmit).toHaveBeenCalledTimes(0);
-      // expect(el.handleFormChange).toHaveBeenCalledTimes(0);
+      expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(0);
+      // expect(el.handleChange).toHaveBeenCalledTimes(0);
       input.simulate(
         'change',
         {
@@ -72,10 +72,10 @@ describe('When not authenticated', () => {
           }
         }
       );
-      // expect(el.handleFormChange).toHaveBeenCalledTimes(1);
+      // expect(el.handleChange).toHaveBeenCalledTimes(1);
       wrapper.find('form').simulate('submit', el.data);
-      expect(wrapper.instance().handleUserFormSubmit).toHaveBeenCalledWith(el.data);
-      expect(wrapper.instance().handleUserFormSubmit).toHaveBeenCalledTimes(1);
+      expect(wrapper.instance().handleSubmit).toHaveBeenCalledWith(el.data);
+      expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(1);
       expect(wrapper.instance().validateForm).toHaveBeenCalledTimes(1);
     });
 
