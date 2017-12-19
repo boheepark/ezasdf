@@ -1,4 +1,4 @@
-export const signupFormRules = [
+export const signupRules = [
   {
     id: 1,
     field: 'username',
@@ -25,7 +25,7 @@ export const signupFormRules = [
   }
 ];
 
-export const signinFormRules = [
+export const signinRules = [
   {
     id: 1,
     field: 'email',

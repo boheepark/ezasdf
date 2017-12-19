@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
-import {signupFormRules, signinFormRules} from './authForm-rules';
+import {signupRules, signinRules} from './authForm-rules';
 import AuthFormErrors from "./AuthFormErrors";
 
 
@@ -10,13 +10,13 @@ class AuthForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formData: {
+      data: {
         username: '',
         email: '',
         password: ''
       },
-      signupFormRules: signupFormRules,
-      signinFormRules: signinFormRules,
+      signupRules: signupRules,
+      signinRules: signinRules,
       valid: false
     };
     this.handleUserFormSubmit = this.handleUserFormSubmit.bind(this);
@@ -25,7 +25,7 @@ class AuthForm extends Component {
 
   clearForm() {
     this.setState({
-      formData: {
+      data: {
         username: '',
         email: '',
         password: ''
@@ -34,7 +34,7 @@ class AuthForm extends Component {
   };
 
   initRules() {
-    const rules = this.state.formRules;
+    const rules = this.state.rules;
     for (const rule of rules) {
       rule.valid = false;
     }
@@ -44,7 +44,7 @@ class AuthForm extends Component {
   };
 
   allTrue() {
-    for (const rule of this.state.formRules) {
+    for (const rule of this.state.rules) {
       if (!rule.valid) {
         return false;
       }
@@ -59,34 +59,34 @@ class AuthForm extends Component {
   };
 
   validateForm() {
-    const formType = this.props.formType;
-    const rules = this.state.formRules;
-    const formData = this.state.formData;
+    const form = this.props.form;
+    const rules = this.state.rules;
+    const data = this.state.data;
     this.setState({
       valid: false
     });
     for (const rule of rules) {
       rule.valid = false;
     }
-    if (formType === 'signup') {
-      if (formData.username.length > 5) {
+    if (form === 'signup') {
+      if (data.username.length > 5) {
         rules[0].valid = true;
       }
     }
-    if (formType === 'signin') {
+    if (form === 'signin') {
       rules[0].valid = true;
     }
-    if (formData.email.length > 5) {
+    if (data.email.length > 5) {
       rules[1].valid = true;
     }
-    if (this.validateEmail(formData.email)) {
+    if (this.validateEmail(data.email)) {
       rules[2].valid = true;
     }
-    if (formData.password.length > 10) {
+    if (data.password.length > 10) {
       rules[3].valid = true;
     }
     this.setState({
-      formRules: rules
+      rules: rules
     });
     if (this.allTrue()) {
       this.setState({
@@ -96,29 +96,29 @@ class AuthForm extends Component {
   };
 
   handleFormChange(event) {
-    const obj = this.state.formData;
-    obj[event.target.name] = event.target.value;
-    this.setState(obj);
+    const data = this.state.data;
+    data[event.target.name] = event.target.value;
+    this.setState(data);
     this.validateForm();
   };
 
   handleUserFormSubmit(event) {
     event.preventDefault();
-    const formType = this.props.formType;
+    const form = this.props.form;
     let data;
-    if (formType === 'signin') {
+    if (form === 'signin') {
       data = {
-        email: this.state.formData.email,
-        password: this.state.formData.password
+        email: this.state.data.email,
+        password: this.state.data.password
       };
-    } else if (formType === 'signup') {
+    } else if (form === 'signup') {
       data = {
-        username: this.state.formData.username,
-        email: this.state.formData.email,
-        password: this.state.formData.password
+        username: this.state.data.username,
+        email: this.state.data.email,
+        password: this.state.data.password
       };
     }
-    const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType}`;
+    const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${form}`;
     axios.post(url, data)
     .then((res) => {
       this.clearForm();
@@ -126,11 +126,11 @@ class AuthForm extends Component {
     })
     .catch((err) => {
       console.log(err);
-      this.props.createMessage(`${formType} failed.`, 'danger');
-      // if(formType === 'signin') {
+      this.props.createMessage(`${form} failed.`, 'danger');
+      // if(form === 'signin') {
       //   this.props.createMessage('Signin failed.', 'danger');
       // }
-      // if(formType === 'signup') {
+      // if(form === 'signup') {
       //   this.props.createMessage('Signup failed.', 'danger');
       // }
     });
@@ -141,7 +141,7 @@ class AuthForm extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.formType !== nextProps.formType) {
+    if (this.props.form !== nextProps.form) {
       this.clearForm();
       this.initRules();
     }
@@ -151,19 +151,19 @@ class AuthForm extends Component {
     if (this.props.isAuthenticated) {
       return <Redirect to='/'/>;
     }
-    let formRules = eval(`this.state.${this.props.formType}FormRules`);
+    let rules = eval(`this.state.${this.props.form}Rules`);
     return (
       <div>
-        <h1 style={{'textTransform': 'capitalize'}}>{this.props.formType}</h1>
+        <h1 style={{'textTransform': 'capitalize'}}>{this.props.form}</h1>
         <hr/>
         <br/>
         <AuthFormErrors
-          formType={this.props.formType}
-          formRules={formRules}
+          form={this.props.form}
+          rules={rules}
         />
         <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
           {
-            this.props.formType === 'signup' &&
+            this.props.form === 'signup' &&
             <div className="form-group">
               <input
                 name="username"
@@ -171,7 +171,7 @@ class AuthForm extends Component {
                 type="text"
                 placeholder="Enter a username"
                 required
-                value={this.state.formData.username}
+                value={this.state.data.username}
                 onChange={this.handleFormChange}
               />
             </div>
@@ -183,7 +183,7 @@ class AuthForm extends Component {
               type="email"
               placeholder="Enter an email address"
               required
-              value={this.state.formData.email}
+              value={this.state.data.email}
               onChange={this.handleFormChange}
             />
           </div>
@@ -194,7 +194,7 @@ class AuthForm extends Component {
               type="password"
               placeholder="Enter a password"
               required
-              value={this.state.formData.password}
+              value={this.state.data.password}
               onChange={this.handleFormChange}
             />
           </div>
@@ -208,6 +208,6 @@ class AuthForm extends Component {
       </div>
     );
   };
-}
+};
 
 export default AuthForm;

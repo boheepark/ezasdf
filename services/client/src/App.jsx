@@ -7,7 +7,7 @@ import About from './components/About';
 import NavBar from './components/NavBar';
 import AuthForm from './components/authForm/AuthForm';
 import Signout from './components/Signout';
-import UserProfile from './components/UserProfile';
+import Profile from './components/Profile';
 import Message from './components/Message'
 
 
@@ -22,10 +22,22 @@ class App extends Component {
       messageText: null,
       messageType: null
     };
-    this.signoutUser = this.signoutUser.bind(this);
-    this.signinUser = this.signinUser.bind(this);
+    this.signout = this.signout.bind(this);
+    this.signin = this.signin.bind(this);
     this.createMessage = this.createMessage.bind(this);
     this.removeMessage = this.removeMessage.bind(this);
+  };
+
+  componentWillMount() {
+    if (window.localStorage.getItem('token')) {
+      this.setState({
+        isAuthenticated: true
+      });
+    }
+  };
+
+  componentDidMount() {
+    this.getUsers();
   };
 
   getUsers() {
@@ -40,14 +52,14 @@ class App extends Component {
     });
   };
 
-  signoutUser() {
+  signout() {
     window.localStorage.clear();
     this.setState({
       isAuthenticated: false
     });
   };
 
-  signinUser(token) {
+  signin(token) {
     window.localStorage.setItem('token', token);
     this.setState({
       isAuthenticated: true
@@ -71,18 +83,6 @@ class App extends Component {
       messageText: null,
       messageType: null
     });
-  };
-
-  componentWillMount() {
-    if (window.localStorage.getItem('token')) {
-      this.setState({
-        isAuthenticated: true
-      });
-    }
-  };
-
-  componentDidMount() {
-    this.getUsers();
   };
 
   render() {
@@ -113,28 +113,28 @@ class App extends Component {
                 <Route exact path='/about' component={About}/>
                 <Route exact path='/signup' render={() => (
                   <AuthForm
-                    formType={'signup'}
+                    form="signup"
                     isAuthenticated={this.state.isAuthenticated}
-                    signinUser={this.signinUser}
+                    signin={this.signin}
                     createMessage={this.createMessage}
                   />
                 )}/>
                 <Route exact path='/signin' render={() => (
                   <AuthForm
-                    formType={'signin'}
+                    form="signin"
                     isAuthenticated={this.state.isAuthenticated}
-                    signinUser={this.signinUser}
+                    signin={this.signin}
                     createMessage={this.createMessage}
                   />
                 )}/>
                 <Route exact path='/signout' render={() => (
                   <Signout
                     isAuthenticated={this.state.isAuthenticated}
-                    signoutUser={this.signoutUser}
+                    signout={this.signout}
                   />
                 )}/>
                 <Route exact path='/profile' render={() => (
-                  <UserProfile
+                  <Profile
                     isAuthenticated={this.state.isAuthenticated}
                   />
                 )}/>
@@ -145,6 +145,6 @@ class App extends Component {
       </div>
     );
   };
-}
+};
 
 export default App;

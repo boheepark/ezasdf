@@ -85,7 +85,7 @@ exports[`NavBar renders a snapshot properly 1`] = `
             onClick={[Function]}
             onKeyDown={[Function]}
           >
-            Sign Up
+            Signup
           </a>
         </li>
         <li
@@ -98,7 +98,7 @@ exports[`NavBar renders a snapshot properly 1`] = `
             onClick={[Function]}
             onKeyDown={[Function]}
           >
-            Sign In
+            Signin
           </a>
         </li>
       </ul>

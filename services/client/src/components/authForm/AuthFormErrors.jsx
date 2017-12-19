@@ -8,7 +8,7 @@ const AuthFormErrors = (props) => {
     <div>
       <ul className="validation-list">
         {
-          props.formRules.map((rule) => {
+          props.rules.map((rule) => {
             return (
               <li
                 className={rule.valid ? "success" : "error"}
