@@ -30,7 +30,7 @@ class AuthForm extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.form !== nextProps.form) {
       this.clearForm();
-      this.initRules();
+      // this.initRules();
     }
   };
 
@@ -61,7 +61,7 @@ class AuthForm extends Component {
     axios.post(url, data)
     .then((res) => {
       this.clearForm();
-      this.props.signinUser(res.data.data.token);
+      this.props.signin(res.data.data.token);
     })
     .catch((err) => {
       console.log(err);
@@ -91,7 +91,7 @@ class AuthForm extends Component {
       rule.valid = false;
     }
     this.setState({
-      formRules: rules
+      rules: rules
     });
   };
 
@@ -108,6 +108,41 @@ class AuthForm extends Component {
       }
     }
     return true;
+  };
+
+  resetRules() {
+    let rules;
+    if(this.props.form === 'signup') {
+      rules = this.state.signupRules;
+    } else if(this.props.form === 'signin') {
+      rules = this.state.signinRules;
+    }
+    for(const rule of rules) {
+      rule.valid = false;
+    }
+    this.setState({
+      `${this.props.form}Rules`: rules
+    });
+    // if(this.props.form === 'signin') {
+    //   const rules = this.state.signinRules;
+    //   for(const rule of rules) {
+    //     rule.valid = false;
+    //   }
+    //   this.setState({
+    //     signinRules: rules
+    //   });
+    // } else if(this.props.form === 'signup') {
+    //   const rules = this.state.signupRules;
+    //   for(const rule of rules) {
+    //     rule.valid = false;
+    //   }
+    //   this.setState({
+    //     signupRules: rules
+    //   });
+    // }
+    this.setState({
+      valid: false
+    });
   };
 
   validateEmail(email) {
