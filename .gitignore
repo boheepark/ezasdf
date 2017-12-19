@@ -105,7 +105,7 @@ ENV/
 
 # setup
 setup.cmd
-local.cmd
+setup.bat
 
 # node
 node_modules/
