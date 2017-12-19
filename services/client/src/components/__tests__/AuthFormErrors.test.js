@@ -23,7 +23,7 @@ describe('AuthFormErrors tests', () => {
   testData.forEach((el) => {
     const component = <AuthFormErrors {...el} />;
 
-    it(`${el.form} errors render properly`, () => {
+    it(`${el.form} form errors render properly`, () => {
       const wrapper = shallow(component);
       const ul = wrapper.find('ul');
       expect(ul.length).toBe(1);
@@ -36,7 +36,7 @@ describe('AuthFormErrors tests', () => {
       });
     });
 
-    it(`${el.form} errors render a snapshot properly`, () => {
+    it(`${el.form} form errors render a snapshot properly`, () => {
       const tree = renderer.create(
         <Router>
           <AuthFormErrors {...el} />
