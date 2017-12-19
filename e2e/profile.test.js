@@ -1,15 +1,15 @@
 import {Selector} from 'testcafe';
+import randomstring from 'randomstring';
+// const randomstring = require('randomstring');
 
-const randomstring = require('randomstring');
 
-const username = randomstring.generate();
-const email = `${username}@email.com`;
-const password = 'greaterthanten';
-const currentDate = new Date();
+const USERNAME = randomstring.generate();
+const EMAIL = `${USERNAME}@email.com`;
+const PASSWORD = 'greaterthanten';
+const DATE = new Date();
+
 
 const TEST_URL = process.env.TEST_URL;
-
-
 fixture('/profile').page(`${TEST_URL}/profile`);
 
 
@@ -31,9 +31,9 @@ test(`Should display profile if the user is signed in.`, async (t) => {
   // signup user
   await t
     .navigateTo(`${TEST_URL}/signup`)
-    .typeText('input[name="username"]', username)
-    .typeText('input[name="email"]', email)
-    .typeText('input[name="password"]', password)
+    .typeText('input[name="username"]', USERNAME)
+    .typeText('input[name="email"]', EMAIL)
+    .typeText('input[name="password"]', PASSWORD)
     .click(Selector('input[type="submit"]'));
 
   // assert '/profile' is displayed properly
@@ -41,9 +41,9 @@ test(`Should display profile if the user is signed in.`, async (t) => {
     .navigateTo(`${TEST_URL}/profile`)
     .expect(Selector('li > strong').withText('User ID:').exists).ok()
     .expect(Selector('li > strong').withText('Email:').exists).ok()
-    .expect(Selector('li').withText(email).exists).ok()
+    .expect(Selector('li').withText(EMAIL).exists).ok()
     .expect(Selector('li > strong').withText('Username:').exists).ok()
-    .expect(Selector('li').withText(username).exists).ok()
+    .expect(Selector('li').withText(USERNAME).exists).ok()
     .expect(Selector('a').withText('Profile').exists).ok()
     .expect(Selector('a').withText('Sign Out').exists).ok()
     .expect(Selector('a').withText('Sign Up').exists).notOk()

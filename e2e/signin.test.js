@@ -1,14 +1,14 @@
 import {Selector} from 'testcafe';
+import randomstring from 'randomstring';
+// const randomstring = require('randomstring');
 
-const randomstring = require('randomstring');
 
-const username = randomstring.generate();
-const email = `${username}@email.com`;
-const password = 'greaterthanten';
+const USERNAME = randomstring.generate();
+const EMAIL = `${USERNAME}@email.com`;
+const PASSWORD = 'greaterthanten';
+
 
 const TEST_URL = process.env.TEST_URL;
-
-
 fixture('/signin').page(`${TEST_URL}/signin`);
 
 
@@ -39,7 +39,7 @@ test(`should display the signin form`, async (t) => {
 //     .expect(Selector('.validation-list > .error').nth(2).withText(
 //       'Password must be greater than 10 characters.'
 //     ).exists).ok()
-//     .typeText('input[name="password"]', password)
+//     .typeText('input[name="password"]', PASSWORD)
 //     .expect(Selector('.validation-list').exists).ok()
 //     .expect(Selector('.validation-list > .error').nth(2).withText(
 //       'Password must be greater than 10 characters.'
@@ -59,9 +59,9 @@ test(`should allow a user to signin`, async (t) => {
   // signup user
   await t
     .navigateTo(`${TEST_URL}/signup`)
-    .typeText('input[name="username"]', username)
-    .typeText('input[name="email"]', email)
-    .typeText('input[name="password"]', password)
+    .typeText('input[name="username"]', USERNAME)
+    .typeText('input[name="email"]', EMAIL)
+    .typeText('input[name="password"]', PASSWORD)
     .click(Selector('input[type="submit"]'));
 
   // sign a user out
@@ -71,17 +71,17 @@ test(`should allow a user to signin`, async (t) => {
   // sign a user in
   await t
     .navigateTo(`${TEST_URL}/signin`)
-    .typeText('input[name="email"]', email)
-    .typeText('input[name="password"]', password)
+    .typeText('input[name="email"]', EMAIL)
+    .typeText('input[name="password"]', PASSWORD)
     .click(Selector('input[type="submit"]'));
 
   // assert user is redirected to '/'
   // assert '/' is displayed properly
-  const tr = Selector('td').withText(username).parent();
+  const tr = Selector('td').withText(USERNAME).parent();
   await t
     .expect(Selector('H1').withText('All Users').exists).ok()
-    .expect(tr.child().withText(username).exists).ok()
-    .expect(tr.child().withText(email).exists).ok()
+    .expect(tr.child().withText(USERNAME).exists).ok()
+    .expect(tr.child().withText(EMAIL).exists).ok()
     .expect(Selector('a').withText('Profile').exists).ok()
     .expect(Selector('a').withText('Signout').exists).ok()
     .expect(Selector('a').withText('Signup').exists).notOk()
@@ -108,7 +108,7 @@ test(`should throw an error if the credentials are invalid`, async (t) => {
   await t
     .navigateTo(`${TEST_URL}/signin`)
     .typeText('input[name="email"]', 'invalid@email.com')
-    .typeText('input[name="password"]', password)
+    .typeText('input[name="password"]', PASSWORD)
     .click(Selector('input[type="submit"]'));
 
   // assert user signin failed
@@ -126,7 +126,7 @@ test(`should throw an error if the credentials are invalid`, async (t) => {
   // attempt to signin with invalid password
   await t
     .navigateTo(`${TEST_URL}/signin`)
-    .typeText('input[name="email"]', email)
+    .typeText('input[name="email"]', EMAIL)
     .typeText('input[name="password"]', 'invalidpassword')
     .click(Selector('input[type="submit"]'));
 

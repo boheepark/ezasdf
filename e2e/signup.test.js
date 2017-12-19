@@ -1,14 +1,14 @@
 import {Selector} from 'testcafe';
+import randomstring from 'randomstring';
+// const randomstring = require('randomstring');
+
+
+const USERNAME = randomstring.generate();
+const EMAIL = `${USERNAME}@email.com`;
+const PASSWORD = 'greaterthanten';
+
 
 const TEST_URL = process.env.TEST_URL;
-
-const randomstring = require('randomstring');
-
-const username = randomstring.generate();
-const email = `${username}@test.com`;
-const password = 'greaterthanten';
-
-
 fixture('/signup').page(`${TEST_URL}/signup`);
 
 
@@ -47,7 +47,7 @@ test('should validate the password field', async (t) => {
     .expect(Selector('.validation-list > .error').nth(3).withText(
       'Password must be greater than 10 characters.'
     ).exists).ok()
-    .typeText('input[name="password"]', password)
+    .typeText('input[name="password"]', PASSWORD)
     .expect(Selector('.validation-list > .error').nth(3).withText(
       'Password must be greater than 10 characters.'
     ).exists).notOk()
@@ -62,18 +62,18 @@ test(`should allow a user to signup`, async (t) => {
   // signup user
   await t
     .navigateTo(`${TEST_URL}/signup`)
-    .typeText('input[name="username"]', username)
-    .typeText('input[name="email"]', email)
-    .typeText('input[name="password"]', password)
+    .typeText('input[name="username"]', USERNAME)
+    .typeText('input[name="email"]', EMAIL)
+    .typeText('input[name="password"]', PASSWORD)
     .click(Selector('input[type="submit"]'));
 
   // assert user is redirected to '/'
   // assert '/' is displayed properly
-  const tr = Selector('td').withText(username).parent();
+  const tr = Selector('td').withText(USERNAME).parent();
   await t
     .expect(Selector('H1').withText('All Users').exists).ok()
-    .expect(tr.child().withText(username).exists).ok()
-    .expect(tr.child().withText(email).exists).ok()
+    .expect(tr.child().withText(USERNAME).exists).ok()
+    .expect(tr.child().withText(EMAIL).exists).ok()
     .expect(Selector('a').withText('Profile').exists).ok()
     .expect(Selector('a').withText('Sign Out').exists).ok()
     .expect(Selector('a').withText('Sign Up').exists).notOk()
@@ -86,9 +86,9 @@ test(`should throw an error if the username is taken`, async (t) => {
   // signup user with duplicate username
   await t
     .navigateTo(`${TEST_URL}/signup`)
-    .typeText('input[name="username"]', username)
-    .typeText('input[name="email"]', `${email}unique`)
-    .typeText('input[name="password"]', password)
+    .typeText('input[name="username"]', USERNAME)
+    .typeText('input[name="email"]', `${EMAIL}unique`)
+    .typeText('input[name="password"]', PASSWORD)
     .click(Selector('input[type="submit"]'));
 
   // assert user signup failed
@@ -110,9 +110,9 @@ test(`should throw an error if the email is taken`, async (t) => {
   // signup user with duplicate email
   await t
     .navigateTo(`${TEST_URL}/signup`)
-    .typeText('input[name="username"]', `${username}unique`)
-    .typeText('input[name="email"]', email)
-    .typeText('input[name="password"]', password)
+    .typeText('input[name="username"]', `${USERNAME}unique`)
+    .typeText('input[name="email"]', EMAIL)
+    .typeText('input[name="password"]', PASSWORD)
     .click(Selector('input[type="submit"]'));
 
   // assert user signup failed
