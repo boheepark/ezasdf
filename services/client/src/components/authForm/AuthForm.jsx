@@ -30,6 +30,7 @@ class AuthForm extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.form !== nextProps.form) {
       this.clearForm();
+      this.resetRules();
       // this.initRules();
     }
   };
