@@ -6,7 +6,6 @@ import json
 from flask_testing import TestCase
 
 from project import create_app, db
-from project.api.models import User
 from project.api.utils import add_user
 
 
