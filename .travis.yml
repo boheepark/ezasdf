@@ -25,7 +25,7 @@ env:
   global:
     - DOCKER_COMPOSE_VERSION=1.17.1
     - REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
-    - TEST_URL=http://127.0.0.1
+    - TEST_URL=http://127.0.0.1:3000
     - SECRET_KEY=secret
     - DISPLAY=:99.0
 
