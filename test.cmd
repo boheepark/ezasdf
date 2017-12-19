@@ -25,7 +25,6 @@ IF "%env%" == "dev" (
 )
 
 testcafe chrome e2e
-
 testcafe firefox e2e
 
 IF NOT %fails% == "" (
