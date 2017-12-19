@@ -111,35 +111,23 @@ class AuthForm extends Component {
   };
 
   resetRules() {
-    let rules;
-    if(this.props.form === 'signup') {
-      rules = this.state.signupRules;
-    } else if(this.props.form === 'signin') {
-      rules = this.state.signinRules;
+    if(this.props.form === 'signin') {
+      const rules = this.state.signinRules;
+      for(const rule of rules) {
+        rule.valid = false;
+      }
+      this.setState({
+        signinRules: rules
+      });
+    } else if(this.props.form === 'signup') {
+      const rules = this.state.signupRules;
+      for(const rule of rules) {
+        rule.valid = false;
+      }
+      this.setState({
+        signupRules: rules
+      });
     }
-    for(const rule of rules) {
-      rule.valid = false;
-    }
-    this.setState({
-      `${this.props.form}Rules`: rules
-    });
-    // if(this.props.form === 'signin') {
-    //   const rules = this.state.signinRules;
-    //   for(const rule of rules) {
-    //     rule.valid = false;
-    //   }
-    //   this.setState({
-    //     signinRules: rules
-    //   });
-    // } else if(this.props.form === 'signup') {
-    //   const rules = this.state.signupRules;
-    //   for(const rule of rules) {
-    //     rule.valid = false;
-    //   }
-    //   this.setState({
-    //     signupRules: rules
-    //   });
-    // }
     this.setState({
       valid: false
     });
