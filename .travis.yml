@@ -42,7 +42,7 @@ before_script:
   - docker-compose -f docker-compose-prod.yml up -d --build
 
 script:
-  - docker-compose -f docker-compose-prod.yml ps
+  - docker-machine ls
   - bash test.sh stage
 
 after_script:
