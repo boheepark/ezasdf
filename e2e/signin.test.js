@@ -13,6 +13,7 @@ fixture('/signin').page(`${TEST_URL}/signin`);
 
 
 test(`should display the signin form`, async (t) => {
+
   await t
     .navigateTo(`${TEST_URL}/signin`)
     .expect(Selector('H1').withText('Signin').exists).ok()
@@ -56,6 +57,8 @@ test(`should display the signin form`, async (t) => {
 
 test(`should allow a user to signin`, async (t) => {
 
+  const a = Selector('a');
+
   // signup user
   await t
     .navigateTo(`${TEST_URL}/signup`)
@@ -66,7 +69,7 @@ test(`should allow a user to signin`, async (t) => {
 
   // sign a user out
   await t
-    .click(Selector('a').withText('Signout'));
+    .click(a.withText('Signout'));
 
   // sign a user in
   await t
@@ -82,27 +85,29 @@ test(`should allow a user to signin`, async (t) => {
     .expect(Selector('H1').withText('All Users').exists).ok()
     .expect(tr.child().withText(USERNAME).exists).ok()
     .expect(tr.child().withText(EMAIL).exists).ok()
-    .expect(Selector('a').withText('Profile').exists).ok()
-    .expect(Selector('a').withText('Signout').exists).ok()
-    .expect(Selector('a').withText('Signup').exists).notOk()
-    .expect(Selector('a').withText('Signin').exists).notOk()
+    .expect(a.withText('Profile').exists).ok()
+    .expect(a.withText('Signout').exists).ok()
+    .expect(a.withText('Signup').exists).notOk()
+    .expect(a.withText('Signin').exists).notOk()
     .expect(Selector('.alert-success').withText('Welcome!').exists).ok();
 
   // sign a user out
   await t
-    .click(Selector('a').withText('Signout'));
+    .click(a.withText('Signout'));
 
   // assert '/signout' is displayed properly
   await t
     .expect(Selector('p').withText('You are now signed out').exists).ok()
-    .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Signout').exists).notOk()
-    .expect(Selector('a').withText('Signup').exists).ok()
-    .expect(Selector('a').withText('Signin').exists).ok();
+    .expect(a.withText('Profile').exists).notOk()
+    .expect(a.withText('Signout').exists).notOk()
+    .expect(a.withText('Signup').exists).ok()
+    .expect(a.withText('Signin').exists).ok();
 });
 
 
 test(`should throw an error if the credentials are invalid`, async (t) => {
+
+  const a = Selector('a');
 
   // attempt to signin with invalid email
   await t
@@ -114,10 +119,10 @@ test(`should throw an error if the credentials are invalid`, async (t) => {
   // assert user signin failed
   await t
     .expect(Selector('H1').withText('Signin').exists).ok()
-    .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Signout').exists).notOk()
-    .expect(Selector('a').withText('Signup').exists).ok()
-    .expect(Selector('a').withText('Signin').exists).ok()
+    .expect(a.withText('Profile').exists).notOk()
+    .expect(a.withText('Signout').exists).notOk()
+    .expect(a.withText('Signup').exists).ok()
+    .expect(a.withText('Signin').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
       'signin failed.'
@@ -133,10 +138,10 @@ test(`should throw an error if the credentials are invalid`, async (t) => {
   // assert user signin failed
   await t
     .expect(Selector('H1').withText('Signin').exists).ok()
-    .expect(Selector('a').withText('Profile').exists).notOk()
-    .expect(Selector('a').withText('Signout').exists).notOk()
-    .expect(Selector('a').withText('Signup').exists).ok()
-    .expect(Selector('a').withText('Signin').exists).ok()
+    .expect(a.withText('Profile').exists).notOk()
+    .expect(a.withText('Signout').exists).notOk()
+    .expect(a.withText('Signup').exists).ok()
+    .expect(a.withText('Signin').exists).ok()
     .expect(Selector('.alert-success').exists).notOk()
     .expect(Selector('.alert-danger').withText(
       'signin failed.'
