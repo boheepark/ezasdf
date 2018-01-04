@@ -24,7 +24,6 @@ cache:
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.17.1
-    - DOCKER_MACHINE_VERSION=0.13.0
     - REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
     - TEST_URL=http://127.0.0.1
     - SECRET_KEY=secret
@@ -35,10 +34,6 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  # - test -e /usr/local/bin/docker-machine && sudo rm /usr/local/bin/docker-machine
-  - curl -L https://github.com/docker/machine/releases/download/${DOCKER_MACHINE_VERSION}/docker-machine-`uname -s`-`uname -m` > docker-machine
-  - chmod +x docker-machine
-  - sudo mv docker-machine /usr/local/bin
 
 before_script:
   - sh -e /etc/init.d/xvfb start
@@ -47,7 +42,6 @@ before_script:
   - docker-compose -f docker-compose-prod.yml up -d --build
 
 script:
-  - docker-machine ls
   - bash test.sh stage
 
 after_script:
