@@ -16,7 +16,7 @@ test('should display flash messages correctly', async(t) => {
 
   // signup user
   await t
-    .navigateTo('${TEST_URL}/signup')
+    .navigateTo(`${TEST_URL}/signup`)
     .typeText('input[name="username"]', USERNAME)
     .typeText('input[name="email"]', EMAIL)
     .typeText('input[name="password"]', PASSWORD)
