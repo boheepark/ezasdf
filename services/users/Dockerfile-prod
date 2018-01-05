@@ -8,11 +8,11 @@ RUN apt-get update -yqq \
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-ADD ./requirements.txt /usr/src/app/requirements.txt
+ADD requirements.txt /usr/src/app/requirements.txt
 
 RUN pip install -r requirements.txt
 
-ADD ./entrypoint-prod.sh /usr/src/app/entrypoint-prod.sh
+ADD entrypoint-prod.sh /usr/src/app/entrypoint-prod.sh
 
 ADD . /usr/src/app
 

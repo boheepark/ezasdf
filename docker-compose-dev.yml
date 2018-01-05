@@ -60,7 +60,7 @@ services:
     ports:
       - '3008:8080'
     environment:
-      - API_URL=swagger.json
+      - URL=swagger.json
     depends_on:
       - users-service
 
@@ -73,6 +73,6 @@ services:
     depends_on:
       - users-service
       - client
+      - swagger
     links:
       - users-service
-      - client

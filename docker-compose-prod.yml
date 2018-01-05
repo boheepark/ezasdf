@@ -50,11 +50,11 @@ services:
     container_name: swagger
     build:
       context: ./services/swagger
-      dockerfile: Dockerfile-stage
+      dockerfile: Dockerfile-prod
     ports:
       - '3008:8080'
     environment:
-      - API_URL=swagger.json
+      - URL=swagger.json
     depends_on:
       - users-service
 
