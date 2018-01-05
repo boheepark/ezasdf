@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://UPDATE_ME"
+      "url": "http://34.236.155.161"
     }
   ],
   "schemes": [
@@ -36,7 +36,7 @@
         "summary": "Returns all users",
         "responses": {
           "200": {
-            "description": "Successfully fetched users",
+            "description": "Successfully fetched users"
           }
         }
       },
