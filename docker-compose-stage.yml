@@ -17,7 +17,7 @@ services:
     container_name: users-service
     build:
       context: ./services/users
-      dockerfile: Docker-stage
+      dockerfile: Dockerfile-stage
     expose:
       - '5000'
     environment:
