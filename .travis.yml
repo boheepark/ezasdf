@@ -39,8 +39,8 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
-  - testcafe chrome e2e
   - docker-compose -f docker-compose-prod.yml up -d --build
+  - testcafe chrome e2e
 
 script:
   - bash test.sh stage
