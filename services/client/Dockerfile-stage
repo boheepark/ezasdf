@@ -4,8 +4,8 @@ From node:latest
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
-# add '/usr/src/app/node_modules/.bin' to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:%PATH
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # add environment variables
 ARG REACT_APP_USERS_SERVICE_URL
