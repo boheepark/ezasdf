@@ -2,33 +2,33 @@
 
 SETLOCAL
 
-SET file=""
-SET fails=""
+SET FILE=""
+SET FAILS=""
 
-IF "%env%" == "dev" (
-  SET file=docker-compose-dev.yml
-) ELSE IF "%env%" == "stage" (
-  SET file=docker-compose-dev.yml
-) ELSE IF "%env%" == "prod" (
-  SET file=docker-compose-dev.yml
+IF "%ENV%" == "dev" (
+  SET FILE=docker-compose-dev.yml
+) ELSE IF "%ENV%" == "stage" (
+  SET FILE=docker-compose-dev.yml
+) ELSE IF "%ENV%" == "prod" (
+  SET FILE=docker-compose-dev.yml
 ) ELSE (
   ECHO Something went wrong.
-  ECHO Check env variable.
+  ECHO Check ENV variable.
   EXIT /B 1
 )
 
-docker-compose -f %file% run users-service flask test
-docker-compose -f %file% run users-service flake8 project
+docker-compose -f %FILE% run users-service flask test
+docker-compose -f %FILE% run users-service flake8 project
 
-IF "%env%" == "dev" (
-  docker-compose -f %file% run client yarn test --coverage
+IF "%ENV%" == "dev" (
+  docker-compose -f %FILE% run client yarn test --coverage
 )
 
 testcafe chrome e2e
 testcafe firefox e2e
 
-IF NOT %fails% == "" (
-  ECHO Tests failed: %fails%
+IF NOT %FAILS% == "" (
+  ECHO Tests failed: %FAILS%
   EXIT /B 1
 ) ELSE (
   ECHO Tests passed!
