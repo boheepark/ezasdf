@@ -40,9 +40,9 @@ before_script:
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
   - docker-compose -f docker-compose-prod.yml up -d --build
-  - testcafe chrome e2e
 
 script:
+  - testcafe chrome e2e
   - bash test.sh stage
 
 after_script:
