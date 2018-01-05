@@ -13,7 +13,7 @@ then
   file="docker-compose-dev.yml"
 elif [[ "${env}" == "stage" ]];
 then
-  file="docker-compose-dev.yml"
+  file="docker-compose-stage.yml"
 elif [[ "${env}" == "prod" ]];
 then
   file="docker-compose-prod.yml"
@@ -38,7 +38,7 @@ inspect $? users
 docker-compose -f $file run users-service flake8 project
 inspect $? users-lint
 
-if [[ "${env}" == "dev" ]];
+if [[ "${env}" == "stage" ]];
 then
   docker-compose -f $file run client yarn test --verbose --coverage
   inspect $? client
