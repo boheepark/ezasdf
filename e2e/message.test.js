@@ -37,7 +37,7 @@ test('should display flash messages correctly', async(t) => {
     .navigateTo(`${TEST_URL}/signin`)
     .typeText('input[name="email"]', 'invalid@email.com')
     .typeText('input[name="password"]', PASSWORD)
-    .click(Select0r('input[type="submit"]'));
+    .click(Selector('input[type="submit"]'));
 
   // assert correct message is flashed
   await t
