@@ -72,3 +72,5 @@ services:
       - swagger
     links:
       - users-service
+      - client
+      - swagger
