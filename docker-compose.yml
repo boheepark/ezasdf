@@ -6,7 +6,6 @@ services:
     container_name: users-db
     build:
       context: ./services/users/project/db
-      dockerfile: Dockerfile
     ports:
       - 5435:5432
     environment:
@@ -25,8 +24,8 @@ services:
       - APP_SETTINGS=project.config.DevelopmentConfig
       - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-      - SECRET_KEY=${SECRET_KEY}
       - FLASK_APP=users.py
+      - SECRET_KEY=${SECRET_KEY}
     depends_on:
       - users-db
     links:
