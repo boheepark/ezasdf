@@ -17,7 +17,6 @@ services:
     container_name: users-service
     build:
       context: ./services/users
-      dockerfile: Dockerfile-dev
     volumes:
       - './services/users:/usr/src/app'
     ports:
@@ -37,7 +36,6 @@ services:
     container_name: client
     build:
       context: ./services/client
-      dockerfile: Dockerfile-dev
     volumes:
       - './services/client:/usr/src/app'
     ports:
@@ -54,7 +52,6 @@ services:
     container_name: swagger
     build:
       context: ./services/swagger
-      dockerfile: Dockerfile-dev
     volumes:
       - './services/swagger/swagger.json:/usr/share/nginx/html/swagger.json'
     ports:
