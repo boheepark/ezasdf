@@ -24,7 +24,7 @@ services:
       - APP_SETTINGS=project.config.StagingConfig
       - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_stage
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-      - SECRET_KEY=secret
+      - SECRET_KEY=${SECRET_KEY}
       - FLASK_APP=users.py
     depends_on:
       - users-db
