@@ -5,8 +5,11 @@ if [ -z ${env} ];
 then
   env=$1
 fi
+
+
 file=""
 fails=""
+
 
 if [[ "${env}" == "dev" ]];
 then
@@ -23,6 +26,7 @@ else
   exit 1
 fi
 
+
 inspect() {
   if [ $1 -ne 0 ];
   then
@@ -30,13 +34,18 @@ inspect() {
   fi
 }
 
+
 /bin/sleep 5
 
+docker-compose -f $file run users-service flask recreate_db
+docker-compose -f $file run users-service flask seed_db
+
 docker-compose -f $file run users-service flask test --coverage
-inspect $? users
+inspect $? users-service
 
 docker-compose -f $file run users-service flake8 project
 inspect $? users-lint
+
 
 if [[ "${env}" == "stage" ]];
 then
@@ -44,11 +53,12 @@ then
   inspect $? client
 
   testcafe chrome e2e
-  inspect $? e2e
+  inspect $? e2e_chrome
 else
   testcafe chrome e2e/index.test.js
-  inspect $? e2e
+  inspect $? e2e_chrome
 fi
+
 
 if [ -n "${fails}" ];
 then
