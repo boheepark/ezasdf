@@ -6,9 +6,8 @@ services:
     container_name: users-db
     build:
       context: ./services/users/project/db
-      dockerfile: Dockerfile
     ports:
-      - 5435:5432
+      - 5435:5432 # expose ports - HOST:CONTAINER
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -40,7 +39,7 @@ services:
         - NODE_ENV=development
         - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
     ports:
-      - '3007:3000'
+      - '3007:3000' # expose ports - HOST:CONTAINER
     depends_on:
       - users-service
     links:
@@ -52,7 +51,7 @@ services:
       context: ./services/swagger
       dockerfile: Dockerfile-prod
     ports:
-      - '3008:8080'
+      - '3008:8080' # expose ports - HOST:CONTAINER
     environment:
       - URL=swagger.json
     depends_on:
