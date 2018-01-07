@@ -29,6 +29,7 @@ services:
       - users-db
     links:
       - users-db
+    command: gunicorn -b 0.0.0.0:5000 users:app
 
   client:
     container_name: client
@@ -66,5 +67,8 @@ services:
     depends_on:
       - users-service
       - client
+      - swagger
     links:
       - users-service
+      - client
+      - swagger
