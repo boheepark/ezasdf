@@ -10,8 +10,9 @@ RUN apt-get update \
   && rm -rf /tmp/*
 
 RUN rm /etc/nginx/conf.d/default.conf
-ADD nginx.conf /etc/nginx/conf.d
+ADD swagger.conf /etc/nginx/conf.d
 
+ADD swagger.json /usr/share/nginx/html/swagger.json
 ADD start.sh /start.sh
 
 CMD /start.sh
