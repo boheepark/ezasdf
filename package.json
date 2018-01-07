@@ -1,9 +1,19 @@
 {
   "name": "ezasdf",
   "version": "1.0.0",
-  "repository": "https://github.com/boheepark/ezasdf",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/boheepark/ezasdf.git"
+  },
   "author": "Bohee Park <boheepark91@gmail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boheepark/ezasdf/issues"
+  },
+  "homepage": "https://github.com/boheepark/ezasdf#readme",
   "dependencies": {
     "randomstring": "^1.1.5",
     "testcafe": "^0.18.6"
