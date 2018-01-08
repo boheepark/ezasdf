@@ -1,4 +1,4 @@
-FROM nginx:1.13.5
+FROM nginx:latest
 
 ENV SWAGGER_UI_VERSION 3.4.5
 ENV URL **None**
