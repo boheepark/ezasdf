@@ -1,12 +1,7 @@
 #!/bin/bash
 
 
-echo asdf
-echo $?
-echo $1
-echo $2
-
-if [ $? -ne 1 ];
+if [ $# -ne 1 ];
 then
   echo "USAGE: sh test.sh <env>"
   echo "* <env>: dev, stage, or prod"
@@ -33,7 +28,7 @@ inspect() {
 
 
 test_e2e() {
-  if [ $? -ne 1 ];
+  if [ $# -ne 1 ];
   then
     echo "USAGE: test_e2e <file/directory>"
   fi
