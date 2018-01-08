@@ -1,30 +1,22 @@
 #!/bin/bash
 
 
+if [ $? != 1 ];
+then
+  echo "USAGE: sh test.sh <env>"
+  echo "* <env>: dev, stage, or prod"
+  exit 1
+fi
+
+
 if [ -z ${env} ];
 then
   env=$1
 fi
 
 
-file=""
+file="docker-compose-$env"
 fails=""
-
-
-if [[ "${env}" == "dev" ]];
-then
-  file="docker-compose.yml"
-elif [[ "${env}" == "stage" ]];
-then
-  file="docker-compose-stage.yml"
-elif [[ "${env}" == "prod" ]];
-then
-  file="docker-compose-prod.yml"
-else
-  echo "USAGE: sh test.sh <environment name>"
-  echo "* environment_name: dev, stage, or prod"
-  exit 1
-fi
 
 
 inspect() {
