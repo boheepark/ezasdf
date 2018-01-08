@@ -17,7 +17,7 @@ IF "%ENV%" == "dev" (
   EXIT /B 1
 )
 
-docker-compose -f %FILE% run users-service flask test
+docker-compose -f %FILE% run users-service flask test --coverage
 docker-compose -f %FILE% run users-service flake8 project
 
 IF "%ENV%" == "dev" (
