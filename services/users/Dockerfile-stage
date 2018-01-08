@@ -13,10 +13,10 @@ WORKDIR /usr/src/app
 # add requirements
 ADD requirements.txt /usr/src/app/requirements.txt
 
-# add requirements
+# install requirements
 RUN pip install -r requirements.txt
 
-# add entrypoint.sh
+# add entrypoint
 ADD entrypoint-prod.sh /usr/src/app/entrypoint-prod.sh
 
 # add app
