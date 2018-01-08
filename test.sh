@@ -68,13 +68,8 @@ then
   docker-compose -f $file run client yarn test --verbose --coverage
   inspect $? client
 
-  # testcafe chrome e2e
-  # inspect $? e2e_chrome
-
   test_e2e e2e
 else
-  # testcafe chrome e2e/index.test.js
-  # inspect $? e2e_chrome
   test_e2e e2e/index.test.js
 fi
 
