@@ -37,7 +37,7 @@ test(`should display the signup form`, async (t) => {
 });
 
 
-test('should validate the password field', async (t) => {
+test(`should validate the password field`, async (t) => {
   await t
     .navigateTo(`${TEST_URL}/signup`)
     .expect(Selector('H1').withText('Signup').exists).ok()
