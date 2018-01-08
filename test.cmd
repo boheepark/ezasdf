@@ -6,11 +6,11 @@ SET FILE=""
 SET FAILS=""
 
 IF "%ENV%" == "dev" (
-  SET FILE=docker-compose-dev.yml
+  SET FILE=docker-compose.yml
 ) ELSE IF "%ENV%" == "stage" (
-  SET FILE=docker-compose-dev.yml
+  SET FILE=docker-compose-stage.yml
 ) ELSE IF "%ENV%" == "prod" (
-  SET FILE=docker-compose-dev.yml
+  SET FILE=docker-compose-prod.yml
 ) ELSE (
   ECHO Something went wrong.
   ECHO Check ENV variable.
