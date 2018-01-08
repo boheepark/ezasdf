@@ -54,9 +54,9 @@ before_script:
 
 script:
   - bash test.sh $TRAVIS_BRANCH
+  
+  after_success:
+    - bash ./docker-push.sh
 
 after_script:
   - docker-compose -f docker-compose-$TRAVIS_BRANCH.yml down
-
-after_success:
-  - bash ./docker-push.sh
