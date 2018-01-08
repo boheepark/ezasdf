@@ -22,11 +22,11 @@ then
     export REPO=$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
   fi
 
-  # if [ "$TRAVIS_BRANCH" == "stage" ];
-  # then
-  #   export REACT_APP_USERS_SERVICE_URL="TBD"
-  #   export SECRET_KEY="secret"
-  # fi
+  if [ "$TRAVIS_BRANCH" == "stage" ];
+  then
+    export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-1029481067.us-east-1.elb.amazonaws.com"
+    # export SECRET_KEY="secret"
+  fi
   #
   # if [ "$TRAVIS_BRANCH" == "prod" ];
   # then
@@ -45,7 +45,7 @@ then
     docker tag $USERS_DB:$COMMIT $REPO/$USERS_DB:$TAG
     docker push $REPO/$USERS_DB:$TAG
     # client
-    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-$DOCKER_ENV --build-arg REACT_APP_USERS_SERVICE_URL=TBD
+    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-$DOCKER_ENV --build-arg REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
     docker tag $CLIENT:$COMMIT $REPO/$CLIENT:$TAG
     docker push $REPO/$CLIENT:$TAG
     # swagger
