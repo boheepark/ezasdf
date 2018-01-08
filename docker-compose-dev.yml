@@ -1,0 +1,76 @@
+version: '3.4'
+
+services:
+
+  users-db:
+    container_name: users-db
+    build:
+      context: ./services/users/project/db
+    ports:
+      - 5435:5432 # expose ports - HOST:CONTAINER
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  users-service:
+    container_name: users-service
+    build:
+      context: ./services/users
+    volumes:
+      - './services/users:/usr/src/app'
+    ports:
+      - 5001:5000 # expose ports - HOST:CONTAINER
+    environment:
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
+      - FLASK_APP=users.py
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - users-db
+    links:
+      - users-db
+
+  client:
+    container_name: client
+    build:
+      context: ./services/client
+    volumes:
+      - './services/client:/usr/src/app'
+    ports:
+      - '3007:3000' # expose ports - HOST:CONTAINER
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+    depends_on:
+      - users-service
+    links:
+      - users-service
+
+  swagger:
+    container_name: swagger
+    build:
+      context: ./services/swagger
+    volumes:
+      - './services/swagger/swagger.json:/usr/share/nginx/html/swagger.json'
+    ports:
+      - '3008:8080' # expose ports - HOST:CONTAINER
+    environment:
+      - URL=swagger.json
+    depends_on:
+      - users-service
+
+  nginx:
+    container_name: nginx
+    build: ./services/nginx
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - users-service
+      - client
+      - swagger
+    links:
+      - users-service
+      - client
+      - swagger
