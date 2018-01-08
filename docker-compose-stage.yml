@@ -67,5 +67,8 @@ services:
     depends_on:
       - users-service
       - client
+      - swagger
     links:
       - users-service
+      - client
+      - swagger
