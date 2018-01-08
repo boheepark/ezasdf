@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -v
 
 
 echo "Waiting for postgres..."
@@ -10,4 +10,6 @@ done
 
 echo "PostgreSQL started"
 
+flask recreate_db
+flask seed_db
 gunicorn -b 0.0.0.0:5000 users:app
