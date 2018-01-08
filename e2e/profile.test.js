@@ -6,7 +6,6 @@ import randomstring from 'randomstring';
 const USERNAME = randomstring.generate();
 const EMAIL = `${USERNAME}@email.com`;
 const PASSWORD = 'greaterthanten';
-const DATE = new Date();
 
 
 const TEST_URL = process.env.TEST_URL;
