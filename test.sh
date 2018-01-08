@@ -21,7 +21,7 @@ elif [[ "${env}" == "prod" ]];
 then
   file="docker-compose-prod.yml"
 else
-  echo "USAGE: sh test.sh environment_name"
+  echo "USAGE: sh test.sh <environment name>"
   echo "* environment_name: dev, stage, or prod"
   exit 1
 fi
@@ -32,6 +32,22 @@ inspect() {
   then
     fails="${fails} $2"
   fi
+}
+
+
+test_e2e() {
+  if [ $? != 1 ];
+  then
+    echo "USAGE: test_e2e <file/directory>"
+  fi
+
+  e2e=$1
+
+  testcafe chrome $e2e
+  inspect $? e2e_chrome
+
+  testcafe firefox $e2e
+  inspect $? e2e_firefox
 }
 
 
@@ -52,11 +68,14 @@ then
   docker-compose -f $file run client yarn test --verbose --coverage
   inspect $? client
 
-  testcafe chrome e2e
-  inspect $? e2e_chrome
+  # testcafe chrome e2e
+  # inspect $? e2e_chrome
+
+  test_e2e e2e
 else
-  testcafe chrome e2e/index.test.js
-  inspect $? e2e_chrome
+  # testcafe chrome e2e/index.test.js
+  # inspect $? e2e_chrome
+  test_e2e e2e/index.test.js
 fi
 
 
