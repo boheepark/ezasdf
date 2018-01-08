@@ -27,7 +27,6 @@ env:
     - DOCKER_COMPOSE_VERSION=1.17.1
     - DOCKER_ENV=$(if [ "$TRAVIS_BRANCH" == "prod" ]; then echo "prod"; else echo "stage"; fi)
     - COMMIT=${TRAVIS_COMMIT::8}
-    - BRANCH=${TRAVIS_BRANCH}
     - MAIN_REPO=https://github.com/boheepark/ezasdf.git
     - USERS=ezasdf-users
     - USERS_REPO=${MAIN_REPO} # ${TRAVIS_BRANCH}:services/users
