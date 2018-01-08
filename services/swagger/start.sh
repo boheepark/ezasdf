@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh -v
 
 
 if [ $URL != "**None**" ];
