@@ -50,13 +50,13 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
-  - docker-compose -f docker-compose-stage.yml up -d --build
+  - docker-compose -f docker-compose-$TRAVIS_BRANCH.yml up -d --build
 
 script:
-  - bash test.sh stage
+  - bash test.sh $TRAVIS_BRANCH
 
 after_script:
-  - docker-compose -f docker-compose-stage.yml down
+  - docker-compose -f docker-compose-$TRAVIS_BRANCH.yml down
 
 after_success:
   - bash ./docker-push.sh
