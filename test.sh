@@ -15,7 +15,7 @@ then
 fi
 
 
-file="docker-compose-$env"
+file="docker-compose-$env.yml"
 fails=""
 
 
