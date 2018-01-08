@@ -25,16 +25,17 @@ cache:
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.17.1
+    - DOCKER_ENV=$(if [ "$TRAVIS_BRANCH" == "prod" ]; then echo "prod"; else echo "stage"; fi)
     - COMMIT=${TRAVIS_COMMIT::8}
     - MAIN_REPO=https://github.com/boheepark/ezasdf.git
     - USERS=ezasdf-users
-    - USERS_REPO=${MAIN_REPO} # ${TRAVIS_BRANCH}:services/users
+    - USERS_REPO=${MAIN_REPO}#${TRAVIS_BRANCH}:services/users
     - USERS=ezasdf-users_db
-    - USERS_REPO=${MAIN_REPO} # ${TRAVIS_BRANCH}:services/users/project/db
+    - USERS_REPO=${MAIN_REPO}#${TRAVIS_BRANCH}:services/users/project/db
     - USERS=ezasdf-client
-    - USERS_REPO=${MAIN_REPO} # ${TRAVIS_BRANCH}:services/client
+    - USERS_REPO=${MAIN_REPO}#${TRAVIS_BRANCH}:services/client
     - USERS=ezasdf-swagger
-    - USERS_REPO=${MAIN_REPO} # ${TRAVIS_BRANCH}:services/swagger
+    - USERS_REPO=${MAIN_REPO}#${TRAVIS_BRANCH}:services/swagger
     - REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
     - TEST_URL=http://127.0.0.1
     - SECRET_KEY=secret
@@ -50,13 +51,13 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
-  - docker-compose -f docker-compose-$TRAVIS_BRANCH.yml up -d --build
+  - docker-compose -f docker-compose-$DOCKER_ENV.yml up -d --build
 
 script:
-  - bash test.sh $TRAVIS_BRANCH
-
-after_script:
-  - docker-compose -f docker-compose-$TRAVIS_BRANCH.yml down
+  - bash test.sh $DOCKER_ENV
 
 after_success:
   - bash ./docker-push.sh
+
+after_script:
+  - docker-compose -f docker-compose-$DOCKER_ENV.yml down
