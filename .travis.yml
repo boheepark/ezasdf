@@ -25,7 +25,8 @@ cache:
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.17.1
-    - DOCKER_ENV=$(if [ "$TRAVIS_BRANCH" == "prod" ]; then echo "prod"; else echo "stage"; fi)
+    - DOCKER_ENV=$([ "$TRAVIS_BRANCH" == "prod" ] && echo "prod" || echo "stage")
+    - DOCKERFILE=Dockerfile-$DOCKER_ENV
     - COMMIT=${TRAVIS_COMMIT::8}
     - MAIN_REPO=https://github.com/boheepark/ezasdf.git
     - USERS=ezasdf-users
