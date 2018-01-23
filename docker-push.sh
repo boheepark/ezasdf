@@ -3,7 +3,8 @@
 
 export TAG=$TRAVIS_BRANCH
 
-docker_build_tag_push() {
+docker_build_tag_push(){
+  echo asdf
 }
 
 echo "SWAGGER_DIR = $SWAGGER_DIR"
