@@ -1,6 +1,13 @@
 #!/bin/sh -v
 
 
+docker_build_tag_push() {
+
+}
+
+echo "SWAGGER_DIR = $SWAGGER_DIR"
+
+
 if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ];
 then
 
