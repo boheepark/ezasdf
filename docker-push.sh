@@ -1,7 +1,6 @@
 #!/bin/sh -v
 
 
-
 echo "SWAGGER_DIR = $SWAGGER_DIR"
 
 
@@ -40,8 +39,8 @@ docker_build_tag_push() {
     fi
   done
 
-  docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  # docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  # docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
   docker tag $name:$COMMIT $REPO/$name:$TAG
   docker push $REPO/$name:$TAG
 }
