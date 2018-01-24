@@ -5,17 +5,17 @@
 echo "SWAGGER_DIR = $SWAGGER_DIR"
 
 
-docker_tag_push(){
+docker_build_tag_push(){
   args="$@"
   option=""
 
   error(){
     msg="$1"
-    echo "[*] USAGE: docker_tag_push -n name"
+    echo "[*] USAGE: docker_build_tag_push -n name"
     echo "[.]"
     echo "[.]   name: client / users / users_db / swagger"
     echo "[.]"
-    echo "[*] Executed: docker_tag_push $args"
+    echo "[*] Executed: docker_build_tag_push $args"
     [ -n "$msg" ] && echo "[*] $msg"
     exit 1
   }
@@ -29,6 +29,10 @@ docker_tag_push(){
     else
       if [ "$option" == "-n" ] || [ "$option" == "--name" ]; then
         name="$arg"
+      elif [ "$option" == "-r" ] || [ "$option" == "--repo" ]; then
+        repo="$arg"
+      elif [ "$option" == "-b" ] || [ "$option" == "--build-arg" ]; then
+        build_arg="--build-arg $arg"
       else
         error "Invalid option $option."
       fi
@@ -36,6 +40,11 @@ docker_tag_push(){
     fi
   done
 
+  if [ "$TRAVIS_BRANCH" == "dev" ]; then
+    docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  elif [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
+    docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  fi
   docker tag $name:$COMMIT $REPO/$name:$TAG
   docker push $REPO/$name:$TAG
 }
@@ -64,10 +73,10 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   #   export REACT_APP_USERS_SERVICE_URL="TBD"
   # fi
 
-  docker_tag_push -n $USERS -r $USERS_REPO
-  docker_tag_push -n $USERS_DB -r $USERS_DB_REPO
-  docker_tag_push -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
-  docker_tag_push -n $SWAGGER -r $SWAGGER_REPO
+  docker_build_tag_push -n $USERS -r $USERS_REPO
+  docker_build_tag_push -n $USERS_DB -r $USERS_DB_REPO
+  docker_build_tag_push -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
+  docker_build_tag_push -n $SWAGGER -r $SWAGGER_REPO
 
   # # users
   # docker build $USERS_REPO -t $USERS:$COMMIT -f $DOCKERFILE
