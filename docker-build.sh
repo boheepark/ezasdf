@@ -49,12 +49,6 @@ docker_build() {
 
 
 if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-
-  # if [ "$TRAVIS_BRANCH" == "dev" ]; then
-  #   docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
-  #   export REPO=$DOCKER_ID
-  # fi
-
   # if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
   #   curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
   #   unzip awscli-bundle.zip
