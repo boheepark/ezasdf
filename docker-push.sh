@@ -5,13 +5,13 @@
 echo "SWAGGER_DIR = $SWAGGER_DIR"
 
 
-docker_build_tag_push(){
+docker_build_tag_push() {
   args="$@"
   option=""
 
   error(){
     msg="$1"
-    echo "[*] USAGE: docker_build_tag_push -n name"
+    echo "[*] USAGE: docker_build_tag_push -n name -r repo -b build_arg"
     echo "[.]"
     echo "[.]   name: client / users / users_db / swagger"
     echo "[.]"
@@ -40,11 +40,11 @@ docker_build_tag_push(){
     fi
   done
 
-  if [ "$TRAVIS_BRANCH" == "dev" ]; then
-    docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  elif [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
-    docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  fi
+  # if [ "$TRAVIS_BRANCH" == "dev" ]; then
+  #   docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  # elif [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
+  #   docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  # fi
   docker tag $name:$COMMIT $REPO/$name:$TAG
   docker push $REPO/$name:$TAG
 }
