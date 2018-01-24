@@ -40,11 +40,11 @@ docker_build_tag_push() {
     fi
   done
 
-  # if [ "$TRAVIS_BRANCH" == "dev" ]; then
-  #   docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  # elif [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
-  #   docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  # fi
+  if [ "$TRAVIS_BRANCH" == "dev" ]; then
+    docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  elif [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
+    docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  fi
   docker tag $name:$COMMIT $REPO/$name:$TAG
   docker push $REPO/$name:$TAG
 }
