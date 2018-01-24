@@ -51,7 +51,6 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - bash docker-pull.sh
-  - bash docker-build.sh
 
 before_script:
   - sh -e /etc/init.d/xvfb start
