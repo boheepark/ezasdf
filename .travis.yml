@@ -29,6 +29,7 @@ env:
     - DOCKERFILE=Dockerfile-$DOCKER_ENV
     - DOCKER_COMPOSE_FILE=docker-compose-$DOCKER_ENV.yml
     - COMMIT=${TRAVIS_COMMIT::8}
+    - TAG=$TRAVIS_BRANCH
     - MAIN_REPO=https://github.com/boheepark/ezasdf.git
     - USERS=ezasdf-users
     - USERS_REPO=${MAIN_REPO}#${TRAVIS_BRANCH}:services/users
@@ -38,6 +39,7 @@ env:
     - CLIENT_REPO=${MAIN_REPO}#${TRAVIS_BRANCH}:services/client
     - SWAGGER=ezasdf-swagger
     - SWAGGER_REPO=${MAIN_REPO}#${TRAVIS_BRANCH}:services/swagger
+    - REPO=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
     - REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
     - TEST_URL=http://127.0.0.1
     - SECRET_KEY=secret
@@ -48,6 +50,7 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - bash docker-pull.sh
 
 before_script:
   - sh -e /etc/init.d/xvfb start
@@ -59,7 +62,7 @@ script:
   - bash test.sh $DOCKER_ENV
 
 after_success:
-  - bash ./docker-push.sh
+  - bash docker-push.sh
 
 after_script:
   - docker-compose -f $DOCKER_COMPOSE_FILE down

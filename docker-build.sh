@@ -5,17 +5,17 @@
 echo "SWAGGER_DIR = $SWAGGER_DIR"
 
 
-docker_build_tag_push() {
+docker_build() {
   args="$@"
   option=""
 
   error(){
     msg="$1"
-    echo "[*] USAGE: docker_build_tag_push -n name -r repo -b build_arg"
+    echo "[*] USAGE: docker_build -n name -r repo -b build_arg"
     echo "[.]"
     echo "[.]   name: client / users / users_db / swagger"
     echo "[.]"
-    echo "[*] Executed: docker_build_tag_push $args"
+    echo "[*] Executed: docker_build $args"
     [ -n "$msg" ] && echo "[*] $msg"
     exit 1
   }
@@ -45,8 +45,6 @@ docker_build_tag_push() {
   elif [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
     docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
   fi
-  docker tag $name:$COMMIT $REPO/$name:$TAG
-  docker push $REPO/$name:$TAG
 }
 
 
@@ -58,8 +56,8 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   #   export REACT_APP_USERS_SERVICE_URL="TBD"
   # fi
 
-  docker_build_tag_push -n $USERS -r $USERS_REPO
-  docker_build_tag_push -n $USERS_DB -r $USERS_DB_REPO
-  docker_build_tag_push -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
-  docker_build_tag_push -n $SWAGGER -r $SWAGGER_REPO # $SWAGGER_DIR
+  docker_build -n $USERS -r $USERS_REPO
+  docker_build -n $USERS_DB -r $USERS_DB_REPO
+  docker_build -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
+  docker_build -n $SWAGGER -r $SWAGGER_REPO
 fi
