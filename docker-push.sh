@@ -37,29 +37,31 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       option=""
 
       error(){
-        message="$1"
-        echo "[*] USAGE: asdf -s service -r service_repo"
+        msg="$1"
+        echo "[*] USAGE: asdf -n name -r service_repo -b build_arg"
         echo "[.]"
-        echo "[.]   services: client / users / users_db / swagger"
+        echo "[.]   name: client / users / users_db / swagger"
         echo "[.]"
-        echo "[*] Executed: asdf $args"
-        [ -n "$message" ] && echo "[*] $message"
+        echo "[*] Executed: docker_build_tag_push $args"
+        [ -n "$msg" ] && echo "[*] $msg"
         exit 1
       }
 
       for arg in ${args[@]}; do
         if [ "${arg:0:1}" == "-" ]; then
-          [ -n "$option" ] && error "Cannot pass 2 options consecutively."
+          [ -n "$option" ] && error "Specify parameter for $option."
           option="$arg"
         elif [ -z "$option" ]; then
-          error "Specify an option for $arg."
+          error "Specify option for $arg."
         else
-          if [ "$option" == "-s" ] || [ "$option" == "--service" ]; then
+          if [ "$option" == "-n" ] || [ "$option" == "--name" ]; then
             service="$arg"
           elif [ "$option" == "-r" ] || [ "$option" == "--repo" ]; then
             service_repo="$arg"
           elif [ "$option" == "-b" ] || [ "$option" == "--build-arg" ]; then
             build_arg="--build-arg $arg"
+          else
+            error "Invalid option $option."
           fi
           option=""
         fi
