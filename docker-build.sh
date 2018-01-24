@@ -49,14 +49,6 @@ docker_build() {
 
 
 if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-  # if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
-  #   curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-  #   unzip awscli-bundle.zip
-  #   ./awscli-bundle/install -b ~/bin/aws
-  #   export PATH=~/bin:$PATH
-  #   eval $(aws ecr get-login --region us-east-1 --no-include-email)
-  # fi
-
   if [ "$TRAVIS_BRANCH" == "stage" ]; then
     export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-1029481067.us-east-1.elb.amazonaws.com"
   fi
