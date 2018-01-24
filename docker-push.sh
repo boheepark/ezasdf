@@ -1,19 +1,20 @@
 #!/bin/sh -v
 
 
-if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ];
-then
+
+echo "SWAGGER_DIR = $SWAGGER_DIR"
+
+
+if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 
   export TAG=$TRAVIS_BRANCH
 
-  # if [ "$TRAVIS_BRANCH" == "dev" ];
-  # then
+  # if [ "$TRAVIS_BRANCH" == "dev" ]; then
   #   docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
   #   export REPO=$DOCKER_ID
   # fi
 
-  if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ];
-  then
+  if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
     curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
     unzip awscli-bundle.zip
     ./awscli-bundle/install -b ~/bin/aws
@@ -22,40 +23,80 @@ then
     export REPO=$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
   fi
 
-  # if [ "$TRAVIS_BRANCH" == "stage" ];
-  # then
+  if [ "$TRAVIS_BRANCH" == "stage" ]; then
+    export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-1029481067.us-east-1.elb.amazonaws.com"
+  fi
+
+  # if [ "$TRAVIS_BRANCH" == "prod" ]; then
   #   export REACT_APP_USERS_SERVICE_URL="TBD"
-  #   export SECRET_KEY="secret"
-  # fi
-  #
-  # if [ "$TRAVIS_BRANCH" == "prod" ];
-  # then
-  #   export REACT_APP_USERS_SERVICE_URL="TBD"
-  #   export SECRET_KEY="TBD"
   # fi
 
-  if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ];
-  then
-    # users
-    docker build $USERS_REPO -t $USERS:$COMMIT -f Dockerfile-$DOCKER_ENV
-    docker tag $USERS:$COMMIT $REPO/$USERS:$TAG
-    docker push $REPO/$USERS:$TAG
-    # users db
-    docker build $USERS_DB_REPO -t $USERS_DB:$COMMIT
-    docker tag $USERS_DB:$COMMIT $REPO/$USERS_DB:$TAG
-    docker push $REPO/$USERS_DB:$TAG
-    # client
-    docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f Dockerfile-$DOCKER_ENV --build-arg REACT_APP_USERS_SERVICE_URL=TBD
-    docker tag $CLIENT:$COMMIT $REPO/$CLIENT:$TAG
-    docker push $REPO/$CLIENT:$TAG
-    # swagger
-    docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT -f Dockerfile-$DOCKER_ENV $SWAGGER_DIR
-    docker tag $SWAGGER:$COMMIT $REPO/$SWAGGER:$TAG
-    docker push $REPO/$SWAGGER:$TAG
-    # nginx
-    # docker build $NGINX_REPO -t $NGINX:$COMMIT -f Dockerfile-$TAG
-    # docker tag $NGINX:$COMMIT $REPO/$NGINX:$TAG
-    # docker push $REPO/$NGINX:$TAG
+  if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
+    docker_build_tag_push(){
+      args="$@"
+      option=""
+
+      error(){
+        msg="$1"
+        echo "[*] USAGE: asdf -n name -r service_repo -b build_arg"
+        echo "[.]"
+        echo "[.]   name: client / users / users_db / swagger"
+        echo "[.]"
+        echo "[*] Executed: docker_build_tag_push $args"
+        [ -n "$msg" ] && echo "[*] $msg"
+        exit 1
+      }
+
+      for arg in ${args[@]}; do
+        if [ "${arg:0:1}" == "-" ]; then
+          [ -n "$option" ] && error "Specify parameter for $option."
+          option="$arg"
+        elif [ -z "$option" ]; then
+          error "Specify option for $arg."
+        else
+          if [ "$option" == "-n" ] || [ "$option" == "--name" ]; then
+            service="$arg"
+          elif [ "$option" == "-r" ] || [ "$option" == "--repo" ]; then
+            service_repo="$arg"
+          elif [ "$option" == "-b" ] || [ "$option" == "--build-arg" ]; then
+            build_arg="--build-arg $arg"
+          else
+            error "Invalid option $option."
+          fi
+          option=""
+        fi
+      done
+
+      docker build $service_repo -t $service:$COMMIT -f $DOCKERFILE $build_arg
+      docker tag $service:$COMMIT $REPO/$service:$TAG
+      docker push $REPO/$service:$TAG
+    }
+    docker_build_tag_push -s $USERS -r $USERS_REPO
+    docker_build_tag_push -s $USERS_DB -r $USERS_DB_REPO
+    docker_build_tag_push -s $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
+    docker_build_tag_push -s $SWAGGER -r $SWAGGER_REPO
+
+    # # users
+    # docker build $USERS_REPO -t $USERS:$COMMIT -f $DOCKERFILE
+    # docker tag $USERS:$COMMIT $REPO/$USERS:$TAG
+    # docker push $REPO/$USERS:$TAG
+    # # users db
+    # docker build $USERS_DB_REPO -t $USERS_DB:$COMMIT
+    # docker tag $USERS_DB:$COMMIT $REPO/$USERS_DB:$TAG
+    # docker push $REPO/$USERS_DB:$TAG
+    # # client
+    # docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f $DOCKERFILE --build-arg REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
+    # docker tag $CLIENT:$COMMIT $REPO/$CLIENT:$TAG
+    # docker push $REPO/$CLIENT:$TAG
+    # # swagger
+    # docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT -f $DOCKERFILE
+    # # docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT -f $DOCKERFILE $SWAGGER_DIR
+    # docker tag $SWAGGER:$COMMIT $REPO/$SWAGGER:$TAG
+    # docker push $REPO/$SWAGGER:$TAG
+    # # nginx
+    # # docker build $NGINX_REPO -t $NGINX:$COMMIT -f $DOCKERFILE
+    # # docker tag $NGINX:$COMMIT $REPO/$NGINX:$TAG
+    # # docker push $REPO/$NGINX:$TAG
   fi
 
 fi

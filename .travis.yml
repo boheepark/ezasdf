@@ -25,7 +25,9 @@ cache:
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.17.1
-    - DOCKER_ENV=$(if [ "$TRAVIS_BRANCH" == "prod" ]; then echo "prod"; else echo "stage"; fi)
+    - DOCKER_ENV=$([ "$TRAVIS_BRANCH" == "prod" ] && echo "prod" || echo "stage")
+    - DOCKERFILE=Dockerfile-$DOCKER_ENV
+    - DOCKER_COMPOSE_FILE=docker-compose-$DOCKER_ENV.yml
     - COMMIT=${TRAVIS_COMMIT::8}
     - MAIN_REPO=https://github.com/boheepark/ezasdf.git
     - USERS=ezasdf-users
@@ -51,7 +53,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
-  - docker-compose -f docker-compose-$DOCKER_ENV.yml up -d --build
+  - docker-compose -f $DOCKER_COMPOSE_FILE up -d --build
 
 script:
   - bash test.sh $DOCKER_ENV
@@ -60,4 +62,4 @@ after_success:
   - bash ./docker-push.sh
 
 after_script:
-  - docker-compose -f docker-compose-$DOCKER_ENV.yml down
+  - docker-compose -f $DOCKER_COMPOSE_FILE down
