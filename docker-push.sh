@@ -76,28 +76,5 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   docker_build_tag_push -n $USERS -r $USERS_REPO
   docker_build_tag_push -n $USERS_DB -r $USERS_DB_REPO
   docker_build_tag_push -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
-  docker_build_tag_push -n $SWAGGER -r $SWAGGER_REPO
-
-  # # users
-  # docker build $USERS_REPO -t $USERS:$COMMIT -f $DOCKERFILE
-  # docker tag $USERS:$COMMIT $REPO/$USERS:$TAG
-  # docker push $REPO/$USERS:$TAG
-  # # users db
-  # docker build $USERS_DB_REPO -t $USERS_DB:$COMMIT
-  # docker tag $USERS_DB:$COMMIT $REPO/$USERS_DB:$TAG
-  # docker push $REPO/$USERS_DB:$TAG
-  # # client
-  # docker build $CLIENT_REPO -t $CLIENT:$COMMIT -f $DOCKERFILE --build-arg REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
-  # docker tag $CLIENT:$COMMIT $REPO/$CLIENT:$TAG
-  # docker push $REPO/$CLIENT:$TAG
-  # # swagger
-  # docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT -f $DOCKERFILE
-  # # docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT -f $DOCKERFILE $SWAGGER_DIR
-  # docker tag $SWAGGER:$COMMIT $REPO/$SWAGGER:$TAG
-  # docker push $REPO/$SWAGGER:$TAG
-  # # nginx
-  # # docker build $NGINX_REPO -t $NGINX:$COMMIT -f $DOCKERFILE
-  # # docker tag $NGINX:$COMMIT $REPO/$NGINX:$TAG
-  # # docker push $REPO/$NGINX:$TAG
-
+  docker_build_tag_push -n $SWAGGER -r $SWAGGER_REPO # $SWAGGER_DIR
 fi
