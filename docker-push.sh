@@ -40,11 +40,8 @@ docker_build_tag_push() {
     fi
   done
 
-  if [ "$TRAVIS_BRANCH" == "dev" ]; then
-    docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  elif [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
-    docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  fi
+  docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  # docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
   docker tag $name:$COMMIT $REPO/$name:$TAG
   docker push $REPO/$name:$TAG
 }
@@ -52,14 +49,16 @@ docker_build_tag_push() {
 
 if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   if [ "$TRAVIS_BRANCH" == "stage" ]; then
-    export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-1029481067.us-east-1.elb.amazonaws.com"
+    export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-290116194.us-east-1.elb.amazonaws.com "
   fi
   # if [ "$TRAVIS_BRANCH" == "prod" ]; then
   #   export REACT_APP_USERS_SERVICE_URL="TBD"
   # fi
 
-  docker_build_tag_push -n $USERS -r $USERS_REPO
-  docker_build_tag_push -n $USERS_DB -r $USERS_DB_REPO
-  docker_build_tag_push -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
-  docker_build_tag_push -n $SWAGGER -r $SWAGGER_REPO # $SWAGGER_DIR
+  if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
+    docker_build_tag_push -n $USERS -r $USERS_REPO
+    docker_build_tag_push -n $USERS_DB -r $USERS_DB_REPO
+    docker_build_tag_push -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
+    docker_build_tag_push -n $SWAGGER -r $SWAGGER_REPO # $SWAGGER_DIR
+  fi
 fi
