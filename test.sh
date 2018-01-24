@@ -1,36 +1,31 @@
 #!/bin/bash
 
 
-if [ $# -ne 1 ];
-then
-  echo "USAGE: sh test.sh <env>"
-  echo "* <env>: dev, stage, or prod"
+if [ $# -ne 1 ]; then
+  echo "[*] USAGE: sh test.sh env"
+  echo "[.]"
+  echo "[.]   env: local / dev / stage / prod"
   exit 1
 fi
 
 
-if [ -z ${env} ];
-then
+if [ -z ${env} ]; then
   env=$1
 fi
 
 
-file="docker-compose-$env.yml"
 fails=""
-
-
 inspect() {
-  if [ $1 -ne 0 ];
-  then
+  if [ $1 -ne 0 ]; then
     fails="${fails} $2"
   fi
 }
 
 
 test_e2e() {
-  if [ $# -ne 1 ];
-  then
-    echo "USAGE: test_e2e <file/directory>"
+  if [ $# -ne 1 ]; then
+    echo "[*] USAGE: test_e2e file/directory"
+    exit 1
   fi
 
   e2e=$1
@@ -45,6 +40,8 @@ test_e2e() {
 
 /bin/sleep 5
 
+file="docker-compose-$env.yml"
+
 docker-compose -f $file run users-service flask recreate_db
 docker-compose -f $file run users-service flask seed_db
 
@@ -55,8 +52,7 @@ docker-compose -f $file run users-service flake8 project
 inspect $? users-lint
 
 
-if [[ "${env}" == "stage" ]];
-then
+if [ "$env" == "stage" ]; then
   docker-compose -f $file run client yarn test --verbose --coverage
   inspect $? client
 
@@ -66,8 +62,7 @@ else
 fi
 
 
-if [ -n "${fails}" ];
-then
+if [ -n "$fails" ]; then
   echo "Tests failed: ${fails}"
   exit 1
 else
