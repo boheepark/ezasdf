@@ -40,11 +40,8 @@ docker_build() {
     fi
   done
 
-  if [ "$TRAVIS_BRANCH" == "dev" ]; then
-    docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  elif [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
-    docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  fi
+  docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
 }
 
 
@@ -56,8 +53,10 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   #   export REACT_APP_USERS_SERVICE_URL="TBD"
   # fi
 
-  docker_build -n $USERS -r $USERS_REPO
-  docker_build -n $USERS_DB -r $USERS_DB_REPO
-  docker_build -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
-  docker_build -n $SWAGGER -r $SWAGGER_REPO
+  if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
+    docker_build -n $USERS -r $USERS_REPO
+    docker_build -n $USERS_DB -r $USERS_DB_REPO
+    docker_build -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
+    docker_build -n $SWAGGER -r $SWAGGER_REPO
+  fi
 fi
