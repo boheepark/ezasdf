@@ -39,8 +39,7 @@ docker_build_tag_push() {
     fi
   done
 
-  docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
-  # docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
   docker tag $name:$COMMIT $REPO/$name:$TAG
   docker push $REPO/$name:$TAG
 }
@@ -55,6 +54,12 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   # fi
 
   if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
+    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+    unzip awscli-bundle.zip
+    ./awscli-bundle/install -b ~/bin/aws
+    export PATH=~/bin:$PATH
+    eval $(aws ecr get-login --region us-east-1 --no-include-email)
+    
     docker_build_tag_push -n $USERS -r $USERS_REPO
     docker_build_tag_push -n $USERS_DB -r $USERS_DB_REPO
     docker_build_tag_push -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
