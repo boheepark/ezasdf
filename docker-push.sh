@@ -39,8 +39,8 @@ docker_build_tag_push() {
     fi
   done
 
-  # docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
   docker build --cache-from $REPO/$name:$TAG -t $name:$COMMIT -f $DOCKERFILE $build_arg
+  # docker build $repo -t $name:$COMMIT -f $DOCKERFILE $build_arg
   docker tag $name:$COMMIT $REPO/$name:$TAG
   docker push $REPO/$name:$TAG
 }
@@ -48,7 +48,7 @@ docker_build_tag_push() {
 
 if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   if [ "$TRAVIS_BRANCH" == "stage" ]; then
-    export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-290116194.us-east-1.elb.amazonaws.com "
+    export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-290116194.us-east-1.elb.amazonaws.com"
   fi
   # if [ "$TRAVIS_BRANCH" == "prod" ]; then
   #   export REACT_APP_USERS_SERVICE_URL="TBD"
