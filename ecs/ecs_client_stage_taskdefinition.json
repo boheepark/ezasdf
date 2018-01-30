@@ -16,7 +16,7 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "ezasdf-client-stage",
-          "awslogs-region": "us-east-1",
+          "awslogs-region": "us-east-1"
         }
       }
     }

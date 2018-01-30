@@ -12,17 +12,17 @@ const testData = [
     data: {
       username: '',
       email: '',
-      password: ''
-    },
-    isAuthenticated: false,
+      password: '',
+      preventDefault: jest.fn()
+    }
   },
   {
     form: 'signin',
     data: {
       email: '',
-      password: ''
-    },
-    isAuthenticated: false,
+      password: '',
+      preventDefault: jest.fn()
+    }
   }
 ];
 
@@ -30,7 +30,13 @@ const testData = [
 describe('When not authenticated', () => {
 
   testData.forEach((el) => {
-    const component = <AuthForm {...el}/>;
+    const props = {
+      form: el.form,
+      isAuthenticated: false,
+      signin: jest.fn(),
+      createMessage: jest.fn()
+    }
+    const component = <AuthForm {...props}/>;
 
     it(`${el.form} Form renders properly`, () => {
       const wrapper = shallow(component);
@@ -38,7 +44,7 @@ describe('When not authenticated', () => {
       expect(h1.length).toBe(1);
       expect(h1.get(0).props.children).toBe(el.form);
       const formGroup = wrapper.find('.form-group');
-      expect(formGroup.length).toBe(Object.keys(el.data).length);
+      expect(formGroup.length).toBe(Object.keys(el.data).length - 1);
       expect(formGroup.get(0).props.children.props.name).toBe(
         Object.keys(el.data)[0]
       );
@@ -51,28 +57,66 @@ describe('When not authenticated', () => {
       expect(input.get(0).props.disabled).toEqual(true);
     });
 
+    it(`${el.form} Form handles change properly`, () => {
+      const wrapper = shallow(component);
+      if(el.form === 'signup') {
+        for(const rule of wrapper.state().signupRules) {
+          expect(rule.valid).toEqual(false);
+        }
+      } else if(el.form === 'signin') {
+        for(const rule of wrapper.state().signinRules) {
+          expect(rule.valid).toEqual(false);
+        }
+      }
+      expect(wrapper.state().valid).toEqual(false);
+      if(el.form === 'signup') {
+        wrapper.find('input[name="username"]').simulate('change', {
+          target: {
+            name: 'username',
+            value: 'test_user'
+          }
+        });
+      }
+      wrapper.find('input[name="email"]').simulate('change', {
+        target: {
+          name: 'email',
+          value: 'test@email.com'
+        }
+      });
+      wrapper.find('input[name="password"]').simulate('change', {
+        target: {
+          name: 'password',
+          value: 'greaterthanten'
+        }
+      });
+      if(el.form === 'signup') {
+        for(const rule of wrapper.state().signupRules) {
+          expect(rule.valid).toEqual(true);
+        }
+      } else if(el.form === 'signin') {
+        for(const rule of wrapper.state().signinRules) {
+          expect(rule.valid).toEqual(true);
+        }
+      }
+      expect(wrapper.state().valid).toEqual(true);
+    });
+
     it(`${el.form} Form submits the form properly`, () => {
       const wrapper = shallow(component);
       wrapper.instance().handleSubmit = jest.fn();
-      wrapper.instance().validateForm = jest.fn();
       wrapper.update();
-      const input = wrapper.find('input[type="email"]');
-      expect(wrapper.instance().validateForm).toHaveBeenCalledTimes(0);
-      input.simulate(
-        'change',
-        {
-          target: {
-            name: 'email',
-            value: 'test@email.com'
-          }
-        }
-      );
-      expect(wrapper.instance().validateForm).toHaveBeenCalledTimes(1);
       expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(0);
       wrapper.find('form').simulate('submit', el.data);
       expect(wrapper.instance().handleSubmit).toHaveBeenCalledWith(el.data);
       expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(1);
     });
+
+    // it(`${el.form} Form handles submit properly`, () => {
+    //   const wrapper = shallow(component);
+    //   expect(wrapper.instance().props.createMessage).toHaveBeenCalledTimes(0);
+    //   wrapper.find('form').simulate('submit', el.data);
+    //   expect(wrapper.props().createMessage).toHaveBeenCalledTimes(1);
+    // });
 
     it(`${el.form} Form renders a snapshot properly`, () => {
       const tree = renderer.create(component).toJSON();
