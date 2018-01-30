@@ -32,14 +32,14 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       register_definition
 
       # client
-      template="ecs_client_stage_taskdefinitions.json"
+      template="ecs_client_stage_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
       echo "$task_def"
       register_definition
 
       # swagger
-      template="ecs_swagger_stage_taskdefinitions.json"
+      template="ecs_swagger_stage_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
       echo "$task_def"
@@ -50,5 +50,5 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     deploy_cluster
 
   fi
-  
+
 fi
