@@ -18,12 +18,12 @@ exports[`When not authenticated signin Form renders a snapshot properly 1`] = `
       className="validation-list"
     >
       <li
-        className="error"
+        className="success"
       >
         Email is required.
       </li>
       <li
-        className="error"
+        className="success"
       >
         Password is required.
       </li>
@@ -86,22 +86,22 @@ exports[`When not authenticated signup Form renders a snapshot properly 1`] = `
       className="validation-list"
     >
       <li
-        className="error"
+        className="success"
       >
         Username must be greater than 5 characters.
       </li>
       <li
-        className="error"
+        className="success"
       >
         Email must be greater than 5 characters.
       </li>
       <li
-        className="error"
+        className="success"
       >
         Email must be a valid email address.
       </li>
       <li
-        className="error"
+        className="success"
       >
         Password must be greater than 10 characters.
       </li>
