@@ -62,6 +62,7 @@ script:
 
 after_success:
   - bash docker-push.sh
+  - bash docker-deploy-stage.sh
 
 after_script:
   - docker-compose -f $DOCKER_COMPOSE_FILE down
