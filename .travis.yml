@@ -27,7 +27,6 @@ env:
     - DOCKER_COMPOSE_VERSION=1.17.1
     - DOCKER_ENV=$([ "$TRAVIS_BRANCH" == "prod" ] && echo "prod" || echo "stage")
     - DOCKERFILE=Dockerfile-$DOCKER_ENV
-    - DOCKER_COMPOSE_FILE=docker-compose-$DOCKER_ENV.yml
     - COMMIT=${TRAVIS_COMMIT::8}
     - TAG=$TRAVIS_BRANCH
     - MAIN_REPO=https://github.com/boheepark/ezasdf.git
@@ -55,7 +54,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - sleep 3
   - fluxbox >/dev/null 2>&1 &
-  - docker-compose -f $DOCKER_COMPOSE_FILE up -d --build
+  - docker-compose -f docker-compose-stage.yml up -d --build
 
 script:
   - bash test.sh $DOCKER_ENV
@@ -65,4 +64,4 @@ after_success:
   - bash docker-deploy-stage.sh
 
 after_script:
-  - docker-compose -f $DOCKER_COMPOSE_FILE down
+  - docker-compose -f docker-compose-stage.yml down
