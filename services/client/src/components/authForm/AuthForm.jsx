@@ -31,7 +31,6 @@ class AuthForm extends Component {
     if (this.props.form !== nextProps.form) {
       this.clearForm();
       this.resetRules();
-      // this.initRules();
     }
   };
 
@@ -44,35 +43,15 @@ class AuthForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const form = this.props.form;
-    let data;
-    if (form === 'signin') {
-      data = {
-        email: this.state.data.email,
-        password: this.state.data.password
-      };
-    } else if (form === 'signup') {
-      data = {
-        username: this.state.data.username,
-        email: this.state.data.email,
-        password: this.state.data.password
-      };
-    }
-    const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${form}`;
-    axios.post(url, data)
+    const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${this.props.form}`;
+    axios.post(url, this.state.data)
     .then((res) => {
       this.clearForm();
       this.props.signin(res.data.data.token);
     })
     .catch((err) => {
       console.log(err);
-      this.props.createMessage(`${form} failed.`, 'danger');
-      // if(form === 'signin') {
-      //   this.props.createMessage('Signin failed.', 'danger');
-      // }
-      // if(form === 'signup') {
-      //   this.props.createMessage('Signup failed.', 'danger');
-      // }
+      this.props.createMessage(`${this.props.form} failed.`, 'danger');
     });
   };
 
@@ -86,13 +65,12 @@ class AuthForm extends Component {
     });
   };
 
-
   allTrue() {
     let rules;
-    if(this.props.form === 'signup') {
-      rules = signupRules;
-    } else if(this.props.form === 'signin') {
+    if(this.props.form === 'signin') {
       rules = signinRules;
+    } else if(this.props.form === 'signup') {
+      rules = signupRules;
     }
     for (const rule of rules) {
       if (!rule.valid) {
@@ -101,16 +79,6 @@ class AuthForm extends Component {
     }
     return true;
   };
-
-  // initRules() {
-  //   const rules = this.state.rules;
-  //   for (const rule of rules) {
-  //     rule.valid = false;
-  //   }
-  //   this.setState({
-  //     rules: rules
-  //   });
-  // };
 
   resetRules() {
     if(this.props.form === 'signin') {
@@ -146,7 +114,23 @@ class AuthForm extends Component {
 
     this.resetRules();
 
-    if(this.props.form === 'signup') {
+    if(this.props.form === 'signin') {
+      const rules = this.state.signinRules;
+      if(data.email.length > 0) {
+        rules[0].valid = true;
+      }
+      if(data.password.length > 0) {
+        rules[1].valid = true;
+      }
+      this.setState({
+        signinRules: rules
+      });
+      if(this.allTrue()) {
+        this.setState({
+          valid: true
+        });
+      }
+    } else if(this.props.form === 'signup') {
       const rules = this.state.signupRules;
       if(data.username.length > 5) {
         rules[0].valid = true;
@@ -168,22 +152,6 @@ class AuthForm extends Component {
           valid: true
         });
       }
-    } else if(this.props.form === 'signin') {
-      const rules = this.state.signinRules;
-      if(data.email.length > 0) {
-        rules[0].valid = true;
-      }
-      if(data.password.length > 0) {
-        rules[1].valid = true;
-      }
-      this.setState({
-        signinRules: rules
-      });
-      if(this.allTrue()) {
-        this.setState({
-          valid: true
-        });
-      }
     }
   };
 
@@ -192,10 +160,10 @@ class AuthForm extends Component {
       return <Redirect to='/'/>;
     }
     let rules;
-    if(this.props.form === 'signup') {
-      rules = this.state.signupRules;
-    } else if (this.props.form === 'signin') {
+    if(this.props.form === 'signin') {
       rules = this.state.signinRules;
+    } else if (this.props.form === 'signup') {
+      rules = this.state.signupRules;
     }
     return (
       <div>
