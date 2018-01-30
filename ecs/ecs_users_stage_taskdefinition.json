@@ -41,7 +41,7 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "ezasdf-users-stage",
-          "awslogs-region": "us-east-1",
+          "awslogs-region": "us-east-1"
         }
       }
     },
@@ -71,7 +71,7 @@
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "ezasdf-users_db-stage",
-          "awslogs-region": "us-east-1",
+          "awslogs-region": "us-east-1"
         }
       }
     }
