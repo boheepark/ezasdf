@@ -1,0 +1,26 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/ezasdf-client:stage",
+      "essential": true,
+      "memoryReservation": 300,
+      "portMappings": [
+        {
+          "hostPort": 0,
+          "protocol": "tcp",
+          "containerPort": 3000
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "ezasdf-client-stage",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "log-prefix"
+        }
+      }
+    }
+  ],
+  "family": "ezasdf-client-stage-td"
+}
