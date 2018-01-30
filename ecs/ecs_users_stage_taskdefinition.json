@@ -28,6 +28,10 @@
         {
           "name": "SECRET_KEY",
           "value": "secret"
+        },
+        {
+          "name": "FLASK_APP",
+          "value": "users.py"
         }
       ],
       "links": [
@@ -38,7 +42,6 @@
         "options": {
           "awslogs-group": "ezasdf-users-stage",
           "awslogs-region": "us-east-1",
-          "awslogs-stream-prefix": "log-prefix"
         }
       }
     },
@@ -69,7 +72,6 @@
         "options": {
           "awslogs-group": "ezasdf-users_db-stage",
           "awslogs-region": "us-east-1",
-          "awslogs-stream-prefix": "log-prefix"
         }
       }
     }
