@@ -47,7 +47,7 @@ docker_build_tag_push() {
 
 if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   if [ "$TRAVIS_BRANCH" == "stage" ]; then
-    export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-290116194.us-east-1.elb.amazonaws.com"
+    export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-36985883.us-east-1.elb.amazonaws.com"
   fi
   # if [ "$TRAVIS_BRANCH" == "prod" ]; then
   #   export REACT_APP_USERS_SERVICE_URL="TBD"
@@ -59,7 +59,7 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     ./awscli-bundle/install -b ~/bin/aws
     export PATH=~/bin:$PATH
     eval $(aws ecr get-login --region us-east-1 --no-include-email)
-    
+
     docker_build_tag_push -n $USERS -r $USERS_REPO
     docker_build_tag_push -n $USERS_DB -r $USERS_DB_REPO
     docker_build_tag_push -n $CLIENT -r $CLIENT_REPO -b REACT_APP_USERS_SERVICE_URL=$REACT_APP_USERS_SERVICE_URL
