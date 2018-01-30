@@ -9,7 +9,6 @@
         "options": {
           "awslogs-group": "ezasdf-swagger-stage",
           "awslogs-region": "us-east-1",
-          "awslogs-stream-prefix": "log-prefix"
         }
       },
       "portMappings": [
