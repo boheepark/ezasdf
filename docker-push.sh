@@ -50,9 +50,11 @@ if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   if [ "$TRAVIS_BRANCH" == "stage" ]; then
     export REACT_APP_USERS_SERVICE_URL="http://ezasdf-stage-alb-36985883.us-east-1.elb.amazonaws.com"
   fi
-  
+
   if [ "$TRAVIS_BRANCH" == "prod" ]; then
     export REACT_APP_USERS_SERVICE_URL="http://ezasdf-prod-alb-776162934.us-east-1.elb.amazonaws.com"
+    export DATABASE_URL="$AWS_RDS_URI"
+    export SECRET_KEY="$PRODUCTION_SECRET_KEY"
   fi
 
   if [ "$TRAVIS_BRANCH" == "stage" ] || [ "$TRAVIS_BRANCH" == "prod" ]; then
