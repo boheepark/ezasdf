@@ -1,0 +1,25 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "%s.dkr.ecr.us-east-1.amazonaws.com/ezasdf-client:prod",
+      "essential": true,
+      "memoryReservation": 300,
+      "portMappings": [
+        {
+          "hostPort": 0,
+          "protocol": "tcp",
+          "containerPort": 3000
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "ezasdf-client-prod",
+          "awslogs-region": "us-east-1"
+        }
+      }
+    }
+  ],
+  "family": "ezasdf-client-prod-td"
+}
