@@ -13,5 +13,6 @@ test(`should display the page correctly if a user is not signed in`, async (t) =
     .expect(Selector('a').withText('Signout').exists).notOk()
     .expect(Selector('a').withText('Signup').exists).ok()
     .expect(Selector('a').withText('Signin').exists).ok()
+    .expect(Selector('a').withText('Swagger').exists).ok()
     .expect(Selector('.alert').exists).notOk();
 });

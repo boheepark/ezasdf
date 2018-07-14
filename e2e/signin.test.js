@@ -82,6 +82,7 @@ test(`should allow a user to signin`, async (t) => {
   // assert '/' is displayed properly
   const tr = Selector('td').withText(USERNAME).parent();
   await t
+    .expect(Selector('.alert-success').withText('Welcome!').exists).ok();
     .expect(Selector('H1').withText('All Users').exists).ok()
     .expect(tr.child().withText(USERNAME).exists).ok()
     .expect(tr.child().withText(EMAIL).exists).ok()
@@ -89,7 +90,6 @@ test(`should allow a user to signin`, async (t) => {
     .expect(a.withText('Signout').exists).ok()
     .expect(a.withText('Signup').exists).notOk()
     .expect(a.withText('Signin').exists).notOk()
-    .expect(Selector('.alert-success').withText('Welcome!').exists).ok();
 
   // sign a user out
   await t
